@@ -1,0 +1,8 @@
+Replace this file with Riyhana Velarde's photo.
+
+Rename your image to: hero-riyhana.jpg
+Place it in this folder (public/).
+
+Supported formats: .jpg, .png, .webp
+
+Then in src/components/HeroSection.tsx, the constant HERO_IMAGE_SRC is already set to "/hero-riyhana.jpg". No code change needed.

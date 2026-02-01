@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Andrew Elegant Regular — used for "Riyhana Velarde" in hero (file: public/fonts/ANDREW ELEGANT Regular.ttf) */
+@font-face {
+  font-family: "Andrew Elegant";
+  src: url("/fonts/ANDREW%20ELEGANT%20Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-andrew-elegant {
+  font-family: "Andrew Elegant", cursive;
+}
+
+:root {
+  --lavender: #bfa2ff;
+  --soft-pink: #ffb6d5;
+  --gold: #d4af37;
+  --background: #faf7ff;
+}
+
+body {
+  @apply bg-background text-gray-800 antialiased;
+}
+
+/* Focus states for accessibility */
+*:focus-visible {
+  @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-background;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Tab panel transition */
+[role="tabpanel"]:not([hidden]) {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero column stagger (left to right) */
+@keyframes heroColumnFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero name: same lavender × pink gradient, translucent (same colors with alpha) */
+.hero-name-gradient {
+  color: rgba(215, 179, 255, 0.75);
+  background: linear-gradient(
+    to right,
+    rgba(230, 217, 255, 0.75) 0%,
+    rgba(215, 179, 255, 0.75) 50%,
+    rgba(255, 182, 213, 0.75) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.25),
+    0 4px 14px rgba(215, 179, 255, 0.35);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .hero-name-gradient {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ——— Details section: solid lavender bg; off-white cards; lavender–pink border ——— */
+#panel-details .details-heading {
+  color: #2f2a3a;
+}
+#panel-details .details-body {
+  color: #5a5670;
+}
+#panel-details .details-pill {
+  background-color: #e8deff;
+  color: #3a3355;
+}
+
+.details-card-wrap {
+  background: linear-gradient(135deg, rgba(191, 162, 255, 0.28) 0%, rgba(255, 182, 213, 0.22) 100%);
+  padding: 1px;
+  border-radius: 1rem;
+  box-shadow: 0 6px 20px -4px rgba(191, 162, 255, 0.18);
+  transition: box-shadow 0.28s ease-out, transform 0.28s ease-out;
+}
+.details-card-wrap:hover,
+.details-card-wrap:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px -4px rgba(191, 162, 255, 0.22), 0 8px 20px -4px rgba(255, 182, 213, 0.15);
+}
+.details-card-inner {
+  background-color: #faf7ff;
+  border-radius: calc(1rem - 1px);
+  padding: 1.5rem 1.75rem;
+}
+@media (min-width: 640px) {
+  .details-card-inner {
+    padding: 2rem;
+  }
+}
+.details-title-divider {
+  height: 2px;
+  background: linear-gradient(90deg, rgba(191, 162, 255, 0.8) 0%, rgba(255, 182, 213, 0.6) 100%);
+  border-radius: 1px;
+  transform-origin: left;
+  animation: detailsDividerIn 0.6s ease-out forwards;
+}
+.details-card-wrap:nth-child(1) .details-title-divider { animation-delay: 0.15s; }
+.details-card-wrap:nth-child(2) .details-title-divider { animation-delay: 0.25s; }
+@keyframes detailsDividerIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+/* Cards visible by default; animation is enhancement only (no opacity gate) */
+.details-card-enter {
+  opacity: 1;
+  transform: translateY(0);
+}
+.details-section-visible .details-card-enter {
+  animation: detailsCardEnter 0.5s ease-out forwards;
+}
+.details-section-visible .details-card-wrap:nth-child(1).details-card-enter { animation-delay: 0.05s; }
+.details-section-visible .details-card-wrap:nth-child(2).details-card-enter { animation-delay: 0.15s; }
+@keyframes detailsCardEnter {
+  from {
+    opacity: 1;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .details-card-wrap,
+  .details-card-wrap:hover,
+  .details-card-wrap:focus-within {
+    transition: none;
+    transform: none;
+  }
+  .details-title-divider,
+  .details-card-enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
