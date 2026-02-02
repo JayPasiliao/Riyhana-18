@@ -16,19 +16,42 @@
 }
 
 :root {
-  --lavender: #bfa2ff;
-  --soft-pink: #ffb6d5;
-  --gold: #d4af37;
-  --background: #faf7ff;
+  --ivory: #f9eee2;
+  --blush-peach: #ffcbbc;
+  --warm-taupe: #ddb398;
+  --soft-nude-beige: #fbe0d2;
+  --peach-tan: #f8c5ad;
+  --gold: #ddb398;
+  --background: #f9eee2;
 }
 
 body {
-  @apply bg-background text-gray-800 antialiased;
+  @apply antialiased;
+  color: rgba(60, 45, 40, 0.9);
+  background-image: url("/Background/istockphoto-1366257751-612x612.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+
+/* Desktop: fixed attachment for seamless scroll; mobile: scroll for performance */
+@media (min-width: 768px) {
+  body {
+    background-attachment: fixed;
+  }
+}
+
+.dreamy-bg {
+  position: relative;
+  z-index: 1;
+  overflow-x: hidden;
 }
 
 /* Focus states for accessibility */
 *:focus-visible {
-  @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-background;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75), 0 0 0 4px #ddb398;
 }
 
 /* Smooth scroll */
@@ -64,55 +87,128 @@ html {
   }
 }
 
-/* Hero name: same lavender × pink gradient, translucent (same colors with alpha) */
+/* Hero name: warm taupe primary, subtle vertical gradient, soft shadow (Sunset Terra) */
 .hero-name-gradient {
-  color: rgba(215, 179, 255, 0.75);
+  position: relative;
+  z-index: 1;
   background: linear-gradient(
-    to right,
-    rgba(230, 217, 255, 0.75) 0%,
-    rgba(215, 179, 255, 0.75) 50%,
-    rgba(255, 182, 213, 0.75) 100%
+    180deg,
+    #F9EEE2 0%,
+    #FBE0D2 35%,
+    #FBE0D2 65%,
+    #DDB398 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.25),
-    0 4px 14px rgba(215, 179, 255, 0.35);
 }
-@supports (background-clip: text) or (-webkit-background-clip: text) {
-  .hero-name-gradient {
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+
+/* Soft shadow layer (stacked so it shows with gradient text) */
+.hero-name-gradient::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: -0.02em;
+  line-height: inherit;
+  white-space: normal;
+  pointer-events: none;
+  color: transparent;
+  text-shadow: 0 2px 6px rgba(221, 179, 152, 0.35);
+}
+
+/* Shine overlay: pseudo-element with same text, gradient clipped to text, blend mode */
+.hero-name-gradient::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: -0.02em;
+  line-height: inherit;
+  white-space: normal;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 28%,
+    rgba(255, 203, 188, 0.4) 36%,
+    rgba(248, 197, 173, 0.5) 42%,
+    rgba(249, 238, 226, 0.6) 48%,
+    rgba(248, 197, 173, 0.4) 54%,
+    rgba(255, 203, 188, 0.3) 60%,
+    transparent 72%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  mix-blend-mode: screen;
+  animation: heroNameShineSweep 5.5s ease-in-out infinite;
+}
+
+@keyframes heroNameShineSweep {
+  /* Pause with shine off to the right */
+  0%, 12% {
+    background-position: 100% 0;
+  }
+  /* Sweep left to right over ~1.2s */
+  12% {
+    background-position: 100% 0;
+  }
+  32% {
+    background-position: -25% 0;
+  }
+  /* Pause with shine off to the left */
+  32%, 100% {
+    background-position: -25% 0;
   }
 }
 
-/* ——— Details section: solid lavender bg; off-white cards; lavender–pink border ——— */
+@media (prefers-reduced-motion: reduce) {
+  .hero-name-gradient::after {
+    animation: none;
+    background: transparent;
+    -webkit-text-fill-color: transparent;
+    background-clip: unset;
+  }
+}
+
+/* ——— Details section: Sunset Terra ——— */
 #panel-details .details-heading {
-  color: #2f2a3a;
+  color: rgba(60, 45, 40, 0.95);
 }
 #panel-details .details-body {
-  color: #5a5670;
+  color: rgba(60, 45, 40, 0.8);
 }
 #panel-details .details-pill {
-  background-color: #e8deff;
-  color: #3a3355;
+  background-color: rgba(221, 179, 152, 0.2);
+  color: rgba(60, 45, 40, 0.9);
 }
 
 .details-card-wrap {
-  background: linear-gradient(135deg, rgba(191, 162, 255, 0.28) 0%, rgba(255, 182, 213, 0.22) 100%);
+  background: linear-gradient(135deg, rgba(251, 224, 210, 0.9) 0%, rgba(249, 238, 226, 0.95) 100%);
   padding: 1px;
   border-radius: 1rem;
-  box-shadow: 0 6px 20px -4px rgba(191, 162, 255, 0.18);
-  transition: box-shadow 0.28s ease-out, transform 0.28s ease-out;
+  box-shadow: 0 6px 24px -4px rgba(221, 179, 152, 0.3);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 .details-card-wrap:hover,
 .details-card-wrap:focus-within {
   transform: translateY(-6px);
-  box-shadow: 0 12px 28px -4px rgba(191, 162, 255, 0.22), 0 8px 20px -4px rgba(255, 182, 213, 0.15);
+  box-shadow: 0 12px 32px -4px rgba(221, 179, 152, 0.35);
 }
 .details-card-inner {
-  background-color: #faf7ff;
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: calc(1rem - 1px);
   padding: 1.5rem 1.75rem;
 }
@@ -123,7 +219,7 @@ html {
 }
 .details-title-divider {
   height: 2px;
-  background: linear-gradient(90deg, rgba(191, 162, 255, 0.8) 0%, rgba(255, 182, 213, 0.6) 100%);
+  background: linear-gradient(90deg, rgba(221, 179, 152, 0.4) 0%, rgba(248, 197, 173, 0.5) 50%, rgba(221, 179, 152, 0.4) 100%);
   border-radius: 1px;
   transform-origin: left;
   animation: detailsDividerIn 0.6s ease-out forwards;
@@ -173,4 +269,614 @@ html {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ——— Entourage cards: Sunset Terra lift + stagger ——— */
+.entourage-card {
+  animation: entourageCardIn 0.5s ease-out backwards;
+}
+.entourage-card:hover,
+.entourage-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px -8px rgba(221, 179, 152, 0.35);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+@keyframes entourageCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entourage-card {
+    animation: none;
+  }
+  .entourage-card:hover,
+  .entourage-card:focus-within {
+    transform: none;
+  }
+}
+
+/* ——— Entourage designation block: Sunset Terra panel ——— */
+.entourage-designation-block {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(221, 179, 152, 0.4);
+  background: rgba(249, 238, 226, 0.85);
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 4px 24px -4px rgba(221, 179, 152, 0.25);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.entourage-designation-block.is-inview {
+  opacity: 1;
+  transform: translateY(0);
+}
+.entourage-designation-block .entourage-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 768px) {
+  .entourage-designation-block .entourage-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .entourage-designation-block .entourage-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .entourage-designation-block {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ——— Page load: soft fade-in + upward ——— */
+.main-reveal {
+  animation: mainReveal 0.8s ease-out forwards;
+}
+@keyframes mainReveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ——— Cards: Sunset Terra base, soft warm shadow ——— */
+.card-glass {
+  background: rgba(249, 238, 226, 0.92);
+  border: 1px solid rgba(221, 179, 152, 0.35);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px -8px rgba(221, 179, 152, 0.25);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.card-glass:hover,
+.card-glass:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px -12px rgba(221, 179, 152, 0.3);
+  border-color: rgba(221, 179, 152, 0.5);
+}
+
+/* ——— Section title: accent underline (Sunset Terra) ——— */
+.section-title-underline {
+  position: relative;
+  display: inline-block;
+}
+.section-title-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #ddb398 0%, #f8c5ad 50%, #ddb398 100%);
+  border-radius: 1px;
+  transform-origin: left;
+  animation: sectionUnderlineDraw 0.7s ease-out forwards;
+}
+@keyframes sectionUnderlineDraw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ——— Curved HUD dividers (decorative only, no layout) ——— */
+.curved-hud-arc {
+  display: block;
+  width: 100%;
+  max-width: 12rem;
+  height: 1.5rem;
+  margin: 0.25rem auto 0;
+}
+.curved-arc-path {
+  stroke-dasharray: 280;
+  stroke-dashoffset: 280;
+  animation: curvedArcDraw 1.2s ease-out forwards;
+}
+
+.curved-hud-wave {
+  display: block;
+  width: 100%;
+  height: 0.75rem;
+}
+.curved-wave-path {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: curvedWaveDraw 1.5s ease-out forwards;
+}
+.curved-wave-path-secondary {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: curvedWaveDraw 1.5s ease-out 0.2s forwards;
+}
+.curved-hud-double {
+  display: block;
+  width: 100%;
+  max-width: 10rem;
+  height: 1.25rem;
+  margin: 0.25rem auto 0;
+}
+.curved-hud-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 180%;
+  max-width: 20rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(255, 203, 188, 0.15) 0%, rgba(221, 179, 152, 0.08) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+.curved-halo-behind-title {
+  width: 130%;
+  height: 200%;
+  max-width: 16rem;
+  max-height: 4rem;
+}
+.curved-hud-elliptical {
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+  overflow: visible;
+}
+.curved-ellipse-path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: curvedEllipseDraw 1.8s ease-out forwards;
+}
+@keyframes curvedArcDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes curvedWaveDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes curvedEllipseDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Halo Band Divider — very subtle elliptical glow (no banner feel) */
+.curved-hud-halo-band {
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin: 0.5rem 0;
+  opacity: 0.7;
+}
+
+/* Gradient Curve Divider — thin, low opacity */
+.curved-hud-gradient-curve {
+  display: block;
+  width: 100%;
+  height: 0.75rem;
+}
+.curved-gradient-path {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: curvedGradientDraw 1.8s ease-out forwards;
+}
+@keyframes curvedGradientDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Curved HUD Dots — dots arranged along curve */
+.curved-hud-dots {
+  display: block;
+  width: 100%;
+  max-width: 14rem;
+  height: 1rem;
+  margin: 0.75rem auto;
+}
+.curved-dots-path {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: curvedDotsPathDraw 1s ease-out forwards;
+}
+.curved-dot {
+  opacity: 0;
+  animation: curvedDotFadeIn 0.4s ease-out forwards;
+}
+.curved-dot:nth-child(2) { animation-delay: 0.1s; }
+.curved-dot:nth-child(3) { animation-delay: 0.2s; }
+.curved-dot:nth-child(4) { animation-delay: 0.3s; }
+.curved-dot:nth-child(5) { animation-delay: 0.4s; }
+.curved-dot:nth-child(6) { animation-delay: 0.5s; }
+.curved-dot:nth-child(7) { animation-delay: 0.6s; }
+.curved-dot:nth-child(8) { animation-delay: 0.7s; }
+@keyframes curvedDotsPathDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes curvedDotFadeIn {
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curved-arc-path,
+  .curved-wave-path,
+  .curved-wave-path-secondary,
+  .curved-ellipse-path,
+  .curved-gradient-path,
+  .curved-dots-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .curved-hud-arc,
+  .curved-hud-wave,
+  .curved-hud-halo-band,
+  .curved-hud-gradient-curve {
+    animation: none;
+  }
+  .curved-dot {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Section header with curved arc (wrapper) — does not affect layout */
+.section-header-curved {
+  position: relative;
+}
+.section-header-curved .section-title-underline::after {
+  border-radius: 2px;
+  height: 1.5px;
+}
+
+/* Card / block with elliptical HUD frame */
+.card-group-curved-frame {
+  position: relative;
+}
+.card-group-curved-frame::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 1.5rem;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(221, 179, 152, 0.2) 0%, rgba(248, 197, 173, 0.25) 50%, rgba(221, 179, 152, 0.2) 100%) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: curvedFrameFade 1s ease-out 0.3s forwards;
+}
+@keyframes curvedFrameFade {
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-group-curved-frame::before {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Footer top: spacing only, no line */
+.footer-divider-top {
+  width: 100%;
+  height: 0;
+  margin-bottom: 2rem;
+}
+
+/* ——— Decorative divider: gradient dots + subtle shimmer ——— */
+.divider-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+.divider-dots span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(221, 179, 152, 0.5);
+  box-shadow: 0 0 6px rgba(248, 197, 173, 0.3);
+  animation: shimmerSubtle 3s ease-in-out infinite;
+}
+.divider-dots span:nth-child(2) { animation-delay: 0.2s; }
+.divider-dots span:nth-child(3) { animation-delay: 0.4s; }
+.divider-dots span:nth-child(4) { animation-delay: 0.6s; }
+.divider-dots span:nth-child(5) { animation-delay: 0.8s; }
+@keyframes shimmerSubtle {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .divider-dots span { animation: none; }
+}
+
+/* ——— Nav: Sunset Terra ——— */
+.nav-dreamy {
+  box-shadow: 0 4px 24px -4px rgba(221, 179, 152, 0.3);
+}
+
+.decorative-floral {
+  filter: drop-shadow(0 0 6px rgba(221, 179, 152, 0.25));
+}
+
+/* ——— Glitter particles (Sunset Terra) ——— */
+.glitter-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.glitter-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(248, 197, 173, 0.4);
+  box-shadow: 0 0 6px rgba(221, 179, 152, 0.3);
+  animation: glitterFloat 10s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glitter-dot {
+    animation: none;
+    opacity: 0.2;
+  }
+}
+@keyframes glitterFloat {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    opacity: 0.6;
+    transform: translate(4px, -6px) scale(1.1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translate(-2px, 4px) scale(0.95);
+  }
+  75% {
+    opacity: 0.55;
+    transform: translate(6px, 2px) scale(1.05);
+  }
+}
+
+/* ——— FAQ accordion ——— */
+.faq-accordion-trigger {
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.faq-accordion-content {
+  overflow: hidden;
+  transition: max-height 0.35s ease-out;
+}
+.faq-accordion-content[data-open="false"] {
+  max-height: 0;
+}
+.faq-accordion-content[data-open="true"] {
+  max-height: 200px;
+}
+
+/* ——— Submit button shimmer ——— */
+@keyframes buttonShimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.btn-gold-shimmer:hover {
+  background-size: 200% 100%;
+  animation: buttonShimmer 1.2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(221, 179, 152, 0.3);
+}
+
+/* ——— Section backgrounds: Sunset Terra (light, soft two-tone) ——— */
+.section-gradient-details {
+  background: linear-gradient(135deg, rgba(251, 224, 210, 0.6) 0%, rgba(249, 238, 226, 0.7) 50%, rgba(248, 197, 173, 0.55) 100%);
+}
+.section-gradient-program {
+  background: linear-gradient(135deg, rgba(249, 238, 226, 0.65) 0%, rgba(251, 224, 210, 0.6) 45%, rgba(248, 197, 173, 0.55) 100%);
+}
+.section-gradient-entourage {
+  background: linear-gradient(135deg, rgba(248, 197, 173, 0.55) 0%, rgba(249, 238, 226, 0.65) 40%, rgba(251, 224, 210, 0.6) 100%);
+}
+.section-gradient-venue {
+  background: linear-gradient(135deg, rgba(251, 224, 210, 0.6) 0%, rgba(248, 197, 173, 0.55) 50%, rgba(249, 238, 226, 0.65) 100%);
+}
+.section-gradient-rsvp {
+  background: linear-gradient(135deg, rgba(249, 238, 226, 0.65) 0%, rgba(248, 197, 173, 0.55) 50%, rgba(251, 224, 210, 0.6) 100%);
+}
+.section-gradient-faqs {
+  background: linear-gradient(135deg, rgba(251, 224, 210, 0.6) 0%, rgba(248, 197, 173, 0.55) 100%);
+}
+.section-gradient-footer {
+  background: linear-gradient(135deg, rgba(221, 179, 152, 0.5) 0%, rgba(249, 238, 226, 0.7) 100%);
+}
+
+/* ——— Elegant Footer: cursive typography + closing title card ——— */
+.footer-elegant {
+  position: relative;
+  overflow: hidden;
+}
+.footer-main-text {
+  text-align: center;
+  color: rgba(60, 45, 40, 0.95);
+  line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  animation: footerFadeIn 0.8s ease-out forwards;
+  opacity: 0;
+}
+@keyframes footerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.footer-name {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(60, 45, 40, 0.95);
+  display: inline-block;
+}
+.footer-event {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  display: inline-block;
+}
+.footer-celebration {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  display: inline-block;
+}
+.footer-separator {
+  color: rgba(221, 179, 152, 0.8);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-family: serif;
+  margin: 0 0.25rem;
+}
+.footer-ornaments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  opacity: 0;
+  animation: footerFadeIn 0.8s ease-out 0.3s forwards;
+}
+.footer-sparkle {
+  color: rgba(221, 179, 152, 0.6);
+  font-size: 1rem;
+  display: inline-block;
+  animation: footerSparkleFloat 4s ease-in-out infinite;
+}
+.footer-sparkle-1 {
+  animation-delay: 0s;
+}
+.footer-sparkle-2 {
+  animation-delay: 1.3s;
+  font-size: 0.875rem;
+}
+.footer-sparkle-3 {
+  animation-delay: 2.6s;
+}
+@keyframes footerSparkleFloat {
+  0%, 100% {
+    opacity: 0.25;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateY(-4px) scale(1.1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-main-text,
+  .footer-ornaments {
+    animation: none;
+    opacity: 1;
+  }
+  .footer-name {
+    animation: none;
+  }
+  .footer-sparkle {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* ——— FAQ accordion: gradient border + glow ——— */
+.faq-accordion-trigger {
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.faq-item {
+  border-color: rgba(221, 179, 152, 0.4);
+  box-shadow: 0 2px 12px -2px rgba(221, 179, 152, 0.25);
+}
+.faq-item:focus-within {
+  box-shadow: 0 0 16px rgba(221, 179, 152, 0.3);
+}
+
+/* ——— Text on cards/sections: dark warm for readability (Sunset Terra) ——— */
+main .text-gray-800,
+main .text-gray-700,
+main .text-gray-600,
+main .details-body,
+main .details-heading,
+.card-glass,
+.card-glass h1,
+.card-glass h2,
+.card-glass h3,
+.card-glass p,
+.card-glass span,
+.card-glass li,
+.card-glass label,
+.card-glass strong {
+  color: rgba(60, 45, 40, 0.9);
+}
+main .text-gray-500,
+.section-gradient-footer p {
+  color: rgba(60, 45, 40, 0.75);
+}
+.card-glass input::placeholder,
+.card-glass textarea::placeholder {
+  color: rgba(60, 45, 40, 0.5);
+}
+.card-glass input,
+.card-glass textarea,
+.card-glass select {
+  color: rgba(60, 45, 40, 0.95);
+  border-color: rgba(221, 179, 152, 0.5);
+}
+.card-glass input:focus,
+.card-glass textarea:focus,
+.card-glass select:focus {
+  border-color: #ddb398;
+  --tw-ring-color: rgba(221, 179, 152, 0.4);
 }

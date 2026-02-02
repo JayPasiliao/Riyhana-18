@@ -21,17 +21,17 @@ const PillButton = forwardRef<HTMLButtonElement, PillButtonProps>(
     ref
   ) => {
     const base =
-      "rounded-full px-6 py-3 font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]";
+      "rounded-full px-6 py-3 font-medium transition-colors duration-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed";
 
     const variants = {
       primary:
-        "bg-lavender text-white shadow-soft hover:shadow-glow hover:bg-lavender/90",
+        "bg-warm-taupe text-white shadow-soft hover:shadow-glow hover:bg-warm-taupe/90 transition-shadow duration-300",
       secondary:
-        "bg-soft-pink text-white shadow-soft hover:shadow-glow hover:bg-soft-pink/90",
+        "bg-blush-peach text-white shadow-soft hover:shadow-glow hover:bg-blush-peach/90 transition-shadow duration-300",
       gold:
-        "bg-gold text-white shadow-soft hover:shadow-glow hover:bg-gold-light",
+        "bg-gradient-to-r from-gold via-gold-light to-gold text-white shadow-soft hover:shadow-glow btn-gold-shimmer bg-[length:200%_100%] active:opacity-90",
       outline:
-        "border-2 border-gold text-gold bg-transparent hover:bg-gold/10",
+        "border-2 border-gold text-gold bg-transparent hover:bg-gold/20 hover:shadow-glow transition-colors duration-400 active:opacity-90",
     };
 
     return (

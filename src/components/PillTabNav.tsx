@@ -44,7 +44,12 @@ export default function PillTabNav({ activeTab, onTabChange }: PillTabNavProps) 
 
   return (
     <nav
-      className="sticky top-0 z-30 bg-background/95 backdrop-blur-sm border-b border-lavender/20 shadow-soft"
+      className="sticky top-0 z-30 border-b border-warm-taupe/30 shadow-soft nav-dreamy"
+      style={{
+        background: "linear-gradient(135deg, rgba(249, 238, 226, 0.95) 0%, rgba(251, 224, 210, 0.92) 50%, rgba(248, 197, 173, 0.9) 100%)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+      }}
       aria-label="Section navigation"
     >
       <div className="max-w-5xl mx-auto px-4 py-3">
@@ -94,8 +99,8 @@ export default function PillTabNav({ activeTab, onTabChange }: PillTabNavProps) 
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
                 ${
                   activeTab === tab.id
-                    ? "text-gold bg-lavender/20 shadow-soft"
-                    : "text-gray-600 hover:text-lavender hover:bg-lavender/10"
+                    ? "text-warm-taupe bg-ivory/90 border border-warm-taupe/40 shadow-soft"
+                    : "text-warm-taupe/80 hover:text-warm-taupe hover:bg-ivory/70 border border-transparent"
                 }
                 hover:scale-[1.02] active:scale-[0.98]
               `}
@@ -103,9 +108,8 @@ export default function PillTabNav({ activeTab, onTabChange }: PillTabNavProps) 
               {tab.label}
             </button>
           ))}
-          {/* Animated indicator pill */}
           <div
-            className="absolute bottom-0 h-full rounded-full border border-gold/40 bg-gold/10 pointer-events-none transition-all duration-300 ease-out"
+            className="absolute bottom-0 h-full rounded-full border border-warm-taupe/40 bg-peach-tan/30 pointer-events-none transition-all duration-400 ease-out"
             style={{
               left: indicatorStyle.left,
               width: indicatorStyle.width,

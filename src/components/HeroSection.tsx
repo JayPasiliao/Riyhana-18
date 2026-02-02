@@ -75,29 +75,20 @@ export default function HeroSection() {
         ))}
       </div>
 
-      {/* Soft lavender/pink gradient overlay — photos act as texture underneath */}
-      <div
-        className="absolute inset-0 z-[1] bg-gradient-to-b from-lavender/25 via-soft-pink/15 to-lavender/30 pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Vignette: subtle darkening at edges for editorial look */}
+      {/* Sunset Terra: light warm overlay */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, rgba(0,0,0,0.25) 100%)",
+          background: "linear-gradient(180deg, rgba(249, 238, 226, 0.25) 0%, transparent 40%, rgba(248, 197, 173, 0.2) 100%)",
         }}
         aria-hidden="true"
       />
 
-      {/* Gold dust / gold grain overlay at bottom — decorative only, low opacity.
-          To use a custom asset: replace this div with an <img> or next/image
-          pointing to e.g. /gold-dust.png with mix-blend and low opacity. */}
+      {/* Vignette: subtle darkening at edges */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
-          background: "linear-gradient(to top, rgba(212,175,55,0.12) 0%, transparent 35%)",
-          backgroundSize: "100% 100%",
+          background: "radial-gradient(ellipse 80% 70% at 50% 50%, transparent 40%, rgba(0,0,0,0.15) 100%)",
         }}
         aria-hidden="true"
       />
@@ -107,22 +98,23 @@ export default function HeroSection() {
         <div className="text-center w-full max-w-5xl">
           {/* 1. Top tagline — edit HERO_TAGLINE constant above */}
           <p
-            className="text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase text-white/80 font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards]"
+            className="text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase text-warm-taupe font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards]"
             style={{
               animationDelay: "0.2s",
-              textShadow: "0 1px 4px rgba(0,0,0,0.4)",
+              textShadow: "0 1px 4px rgba(255,255,255,0.5)",
             }}
           >
             {HERO_TAGLINE}
           </p>
 
-          {/* 2. Main name — primary focus; can overflow slightly across columns */}
+          {/* 2. Main name — primary focus; base text always visible, shine overlay via ::after */}
           <h1
             className="font-andrew-elegant hero-name-gradient mt-1 sm:mt-2 text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-tight animate-fade-up opacity-0 [animation-fill-mode:forwards]"
             style={{
               letterSpacing: "-0.02em",
               animationDelay: "0.35s",
             }}
+            data-text={DEBUTANT_NAME}
             aria-label={`${DEBUTANT_NAME}, 18th Birthday Debut Celebration`}
           >
             {DEBUTANT_NAME}
@@ -130,10 +122,10 @@ export default function HeroSection() {
 
           {/* 3. Age marker — 18, larger font */}
           <p
-            className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white/95 mt-0.5 sm:mt-1 animate-fade-up opacity-0 [animation-fill-mode:forwards]"
+            className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-warm-taupe mt-0.5 sm:mt-1 animate-fade-up opacity-0 [animation-fill-mode:forwards]"
             style={{
               animationDelay: "0.5s",
-              textShadow: "0 2px 12px rgba(0,0,0,0.4), 0 0 20px rgba(212,175,55,0.2)",
+              textShadow: "0 2px 12px rgba(255,255,255,0.4)",
             }}
           >
             18
@@ -141,10 +133,10 @@ export default function HeroSection() {
 
           {/* 4. Date and time — edit via EVENT_DATE_LINE & EVENT_TIME in constants */}
           <p
-            className="mt-4 sm:mt-6 text-xs sm:text-sm tracking-[0.15em] uppercase text-white/85 font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards]"
+            className="mt-4 sm:mt-6 text-xs sm:text-sm tracking-[0.15em] uppercase text-warm-taupe/90 font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards]"
             style={{
               animationDelay: "0.65s",
-              textShadow: "0 1px 6px rgba(0,0,0,0.45)",
+              textShadow: "0 1px 6px rgba(255,255,255,0.4)",
             }}
           >
             {EVENT_DATE_LINE} • {EVENT_TIME}
@@ -152,10 +144,10 @@ export default function HeroSection() {
 
           {/* 5. Venue — edit via VENUE_NAME & VENUE_ADDRESS in constants */}
           <p
-            className="mt-3 sm:mt-4 text-[0.65rem] sm:text-xs text-white/75 font-sans tracking-wide leading-relaxed animate-fade-up opacity-0 [animation-fill-mode:forwards]"
+            className="mt-3 sm:mt-4 text-[0.65rem] sm:text-xs text-warm-taupe/85 font-sans tracking-wide leading-relaxed animate-fade-up opacity-0 [animation-fill-mode:forwards]"
             style={{
               animationDelay: "0.8s",
-              textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+              textShadow: "0 1px 4px rgba(255,255,255,0.4)",
             }}
           >
             {VENUE_NAME}

@@ -80,7 +80,7 @@ export default function RSVPForm() {
   if (status === "success") {
     return (
       <SectionCard title="RSVP" id="rsvp">
-        <div className="rounded-2xl border border-gold/50 bg-lavender/10 p-8 text-center">
+        <div className="rounded-2xl border border-warm-taupe/50 bg-soft-nude-beige/40 p-8 text-center">
           <p className="text-xl font-serif text-gray-800 mb-2">Thank you for responding!</p>
           <p className="text-gray-600">We&apos;re excited to celebrate with you.</p>
         </div>
@@ -101,7 +101,7 @@ export default function RSVPForm() {
             required
             value={form.fullName}
             onChange={(e) => setForm((f) => ({ ...f, fullName: e.target.value }))}
-            className="w-full rounded-xl border border-lavender/40 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition duration-200"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
             placeholder="Your full name"
             disabled={status === "loading"}
           />
@@ -117,7 +117,7 @@ export default function RSVPForm() {
             required
             value={form.contact}
             onChange={(e) => setForm((f) => ({ ...f, contact: e.target.value }))}
-            className="w-full rounded-xl border border-lavender/40 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition duration-200"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
             placeholder="Email or phone number"
             disabled={status === "loading"}
           />
@@ -153,7 +153,7 @@ export default function RSVPForm() {
             id="rsvp-guests"
             value={form.guestCount}
             onChange={(e) => setForm((f) => ({ ...f, guestCount: Number(e.target.value) }))}
-            className="w-full rounded-xl border border-lavender/40 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition duration-200"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all duration-300"
             disabled={status === "loading"}
           >
             {[1, 2, 3, 4, 5].map((n) => (
@@ -170,7 +170,7 @@ export default function RSVPForm() {
             id="rsvp-meal"
             value={form.mealPreference}
             onChange={(e) => setForm((f) => ({ ...f, mealPreference: e.target.value as MealPreference }))}
-            className="w-full rounded-xl border border-lavender/40 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition duration-200"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all duration-300"
             disabled={status === "loading"}
           >
             <option value="chicken">Chicken</option>
@@ -189,14 +189,14 @@ export default function RSVPForm() {
             value={form.notes}
             onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
             rows={3}
-            className="w-full rounded-xl border border-lavender/40 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition duration-200 resize-none"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 resize-none placeholder:text-gray-400"
             placeholder="Any dietary requirements or message..."
             disabled={status === "loading"}
           />
         </div>
 
         {status === "error" && (
-          <div className="rounded-xl bg-soft-pink/20 border border-soft-pink/40 px-4 py-3 text-gray-700 text-sm">
+          <div className="rounded-xl bg-blush-peach/25 border border-blush-peach/40 px-4 py-3 text-gray-700 text-sm">
             {errorMessage}
           </div>
         )}
