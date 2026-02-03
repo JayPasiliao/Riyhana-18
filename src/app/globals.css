@@ -46,6 +46,8 @@ body {
   position: relative;
   z-index: 1;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Focus states for accessibility */
@@ -879,4 +881,157 @@ main .text-gray-500,
 .card-glass select:focus {
   border-color: #ddb398;
   --tw-ring-color: rgba(221, 179, 152, 0.4);
+}
+
+/* ——— Mobile Optimizations ——— */
+@media (max-width: 640px) {
+  /* Prevent horizontal scrolling */
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+  }
+  
+  main {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  /* Improve touch targets - minimum 44x44px */
+  button:not(.entourage-card button),
+  a:not(.entourage-card a),
+  input[type="radio"],
+  input[type="checkbox"] {
+    min-height: 44px;
+  }
+  
+  /* Better form input sizing on mobile */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 12px 16px;
+  }
+  
+  /* Improve text readability */
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  
+  /* Better spacing on mobile */
+  .card-glass {
+    padding: 1.25rem;
+  }
+  
+  /* Hero text adjustments */
+  .hero-name-gradient {
+    font-size: 2.5rem !important;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+  
+  /* Navigation improvements */
+  nav button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  /* Section padding adjustments */
+  section {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  /* Card grid improvements */
+  .grid {
+    gap: 1rem;
+  }
+  
+  /* Entourage cards - better mobile layout */
+  .entourage-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  /* FAQ items - better touch targets */
+  .faq-item button {
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  /* Footer text adjustments */
+  footer {
+    font-size: 14px;
+    padding: 2rem 1rem;
+  }
+  
+  /* Calendar buttons - better mobile layout */
+  .calendar-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .calendar-buttons button {
+    width: 100%;
+  }
+  
+  /* Venue map - better mobile sizing */
+  iframe {
+    min-height: 300px;
+  }
+  
+  /* Program timeline - better mobile */
+  .program-timeline {
+    padding-left: 1rem;
+  }
+  
+  /* Parents section - better mobile */
+  .parents-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ——— Tablet Optimizations ——— */
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Better tablet spacing */
+  .card-glass {
+    padding: 1.5rem;
+  }
+  
+  /* Hero text for tablet */
+  .hero-name-gradient {
+    font-size: 4rem !important;
+  }
+  
+  /* Navigation for tablet */
+  nav button {
+    padding: 12px 20px;
+  }
+}
+
+/* ——— Touch device improvements ——— */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  button:hover,
+  a:hover {
+    transform: none;
+  }
+  
+  /* Better focus states for touch */
+  button:active,
+  a:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  
+  /* Improve tap targets */
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+  }
 }

@@ -58,18 +58,18 @@ function downloadIcs() {
 
 export default function CalendarButtons() {
   return (
-    <div className="flex flex-wrap gap-3 mt-6">
+    <div className="flex flex-col sm:flex-row flex-wrap gap-3 mt-6 calendar-buttons">
       <a
         href={getGoogleCalendarUrl()}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block"
+        className="inline-block w-full sm:w-auto"
       >
-        <PillButton variant="primary" type="button">
+        <PillButton variant="primary" type="button" className="w-full sm:w-auto">
           Add to Google Calendar
         </PillButton>
       </a>
-      <PillButton variant="outline" type="button" onClick={downloadIcs}>
+      <PillButton variant="outline" type="button" onClick={downloadIcs} className="w-full sm:w-auto">
         Download ICS
       </PillButton>
     </div>

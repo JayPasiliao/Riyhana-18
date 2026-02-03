@@ -21,7 +21,7 @@ const PillButton = forwardRef<HTMLButtonElement, PillButtonProps>(
     ref
   ) => {
     const base =
-      "rounded-full px-6 py-3 font-medium transition-colors duration-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed";
+      "rounded-full px-6 py-3 sm:px-6 sm:py-3 font-medium transition-colors duration-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed min-h-[44px] touch-manipulation";
 
     const variants = {
       primary:

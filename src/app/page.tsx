@@ -347,7 +347,7 @@ export default function Home() {
                   <button
                     type="button"
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    className="faq-accordion-trigger w-full flex items-center justify-between gap-3 px-4 py-3 text-left font-serif font-semibold text-gold hover:bg-gold/5 transition-colors"
+                    className="faq-accordion-trigger w-full flex items-center justify-between gap-3 px-4 py-3 sm:px-4 sm:py-3 text-left font-serif font-semibold text-gold hover:bg-gold/5 transition-colors min-h-[44px] touch-manipulation"
                     aria-expanded={openFaq === i}
                   >
                     {faq.q}

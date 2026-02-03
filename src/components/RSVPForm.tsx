@@ -130,7 +130,7 @@ export default function RSVPForm() {
             required
             value={form.name}
             onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400 min-h-[44px] touch-manipulation"
             placeholder="Your full name"
             disabled={status === "loading"}
           />
@@ -145,7 +145,7 @@ export default function RSVPForm() {
             type="text"
             value={form.address}
             onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400 min-h-[44px] touch-manipulation"
             placeholder="Your address"
             disabled={status === "loading"}
           />
@@ -161,7 +161,7 @@ export default function RSVPForm() {
             required
             value={form.contactNumber}
             onChange={(e) => setForm((f) => ({ ...f, contactNumber: e.target.value }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400 min-h-[44px] touch-manipulation"
             placeholder="Phone number"
             disabled={status === "loading"}
           />
@@ -177,7 +177,7 @@ export default function RSVPForm() {
             required
             value={form.emailAddress}
             onChange={(e) => setForm((f) => ({ ...f, emailAddress: e.target.value }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400 min-h-[44px] touch-manipulation"
             placeholder="your.email@example.com"
             disabled={status === "loading"}
           />
@@ -192,7 +192,7 @@ export default function RSVPForm() {
             type="url"
             value={form.facebookProfile}
             onChange={(e) => setForm((f) => ({ ...f, facebookProfile: e.target.value }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400 min-h-[44px] touch-manipulation"
             placeholder="https://facebook.com/yourprofile"
             disabled={status === "loading"}
           />
@@ -212,7 +212,7 @@ export default function RSVPForm() {
                   checked={form.confirmation === opt}
                   onChange={(e) => setForm((f) => ({ ...f, confirmation: e.target.value as Confirmation }))}
                   disabled={status === "loading"}
-                  className="rounded-full border-gold text-gold focus:ring-gold"
+                  className="rounded-full border-gold text-gold focus:ring-gold w-5 h-5 sm:w-4 sm:h-4 min-w-[20px] min-h-[20px] touch-manipulation"
                 />
                 <span className="capitalize">{opt}</span>
               </label>
@@ -228,7 +228,7 @@ export default function RSVPForm() {
             id="rsvp-guests"
             value={form.guestCount}
             onChange={(e) => setForm((f) => ({ ...f, guestCount: Number(e.target.value) }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all duration-300"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all duration-300 min-h-[44px] touch-manipulation"
             disabled={status === "loading"}
           >
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
@@ -246,7 +246,7 @@ export default function RSVPForm() {
             type="text"
             value={form.relationship}
             onChange={(e) => setForm((f) => ({ ...f, relationship: e.target.value }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400 min-h-[44px] touch-manipulation"
             placeholder="e.g., Friend, Family, Colleague"
             disabled={status === "loading"}
           />
@@ -261,7 +261,7 @@ export default function RSVPForm() {
             value={form.message}
             onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
             rows={3}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 resize-none placeholder:text-gray-400"
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 sm:px-4 sm:py-3 text-base sm:text-sm focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 resize-none placeholder:text-gray-400 min-h-[88px] touch-manipulation"
             placeholder="Any message or special requests..."
             disabled={status === "loading"}
           />

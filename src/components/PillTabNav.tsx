@@ -52,7 +52,7 @@ export default function PillTabNav({ activeTab, onTabChange }: PillTabNavProps) 
       }}
       aria-label="Section navigation"
     >
-      <div className="max-w-5xl mx-auto px-4 py-3">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3">
         <div
           ref={tabListRef}
           role="tablist"
@@ -94,7 +94,8 @@ export default function PillTabNav({ activeTab, onTabChange }: PillTabNavProps) 
                 }
               }}
               className={`
-                relative rounded-full px-4 sm:px-5 py-2.5 text-sm font-medium
+                relative rounded-full px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-medium
+                min-h-[44px] min-w-[44px] flex items-center justify-center
                 transition-all duration-300 ease-out
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
                 ${
@@ -103,6 +104,7 @@ export default function PillTabNav({ activeTab, onTabChange }: PillTabNavProps) 
                     : "text-warm-taupe/80 hover:text-warm-taupe hover:bg-ivory/70 border border-transparent"
                 }
                 hover:scale-[1.02] active:scale-[0.98]
+                touch-manipulation
               `}
             >
               {tab.label}
