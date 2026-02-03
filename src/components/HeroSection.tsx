@@ -48,7 +48,7 @@ export default function HeroSection() {
       aria-label="Hero"
     >
       {/* ——— 4-column photo grid (unchanged) ——— */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 min-h-screen h-screen w-full overflow-hidden hero-section-container">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 min-h-[100svh] min-h-[100dvh] min-h-screen h-[100svh] h-[100dvh] h-screen w-full overflow-hidden hero-section-container">
         {HERO_PHOTOS.map((photo, index) => (
           <div
             key={photo.src}

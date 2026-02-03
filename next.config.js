@@ -65,7 +65,7 @@ const nextConfig = {
             key: 'HandheldFriendly',
             value: 'true'
           },
-          // Cross-origin resource sharing for mobile browsers
+          // Cross-origin resource sharing for mobile browsers - iOS safe
           {
             key: 'Cross-Origin-Embedder-Policy',
             value: 'unsafe-none'
@@ -73,6 +73,11 @@ const nextConfig = {
           {
             key: 'Cross-Origin-Opener-Policy',
             value: 'same-origin-allow-popups'
+          },
+          // Content-Type header for iOS Safari compatibility
+          {
+            key: 'Content-Type',
+            value: 'text/html; charset=utf-8'
           }
         ],
       },

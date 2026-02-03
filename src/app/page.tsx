@@ -1,6 +1,31 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+
+// iOS detection and error handling
+if (typeof window !== 'undefined') {
+  // Detect iOS
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  
+  if (isIOS) {
+    document.documentElement.classList.add('ios');
+  }
+  
+  // Global error handler to prevent iOS Safari from stopping rendering
+  window.addEventListener('error', (event) => {
+    // Log but don't break rendering
+    console.error('Error caught:', event.error);
+    // Return true to prevent default error handling
+    return true;
+  });
+  
+  // Prevent unhandled promise rejections from breaking iOS Safari
+  window.addEventListener('unhandledrejection', (event) => {
+    console.error('Unhandled promise rejection:', event.reason);
+    event.preventDefault();
+  });
+}
 import HeroSection from "@/components/HeroSection";
 import PillTabNav, { type TabId } from "@/components/PillTabNav";
 import SectionCard from "@/components/SectionCard";

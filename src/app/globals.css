@@ -33,7 +33,10 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll; /* iOS Safari doesn't support fixed on mobile */
-  min-height: 100vh;
+  /* iOS-safe viewport height - use modern units with fallbacks */
+  min-height: 100vh; /* Fallback for older browsers */
+  min-height: 100svh; /* Small viewport height - iOS Safari safe */
+  min-height: 100dvh; /* Dynamic viewport height - modern browsers */
   /* Cross-browser font smoothing */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,13 +67,27 @@ body {
 /* iOS Safari specific fixes */
 @supports (-webkit-touch-callout: none) {
   body {
-    /* iOS Safari viewport height fix */
-    min-height: -webkit-fill-available;
+    /* iOS Safari viewport height fix - use modern units */
+    min-height: 100svh; /* Small viewport height - iOS Safari safe */
+    min-height: -webkit-fill-available; /* iOS Safari specific fallback */
   }
   
   html {
-    /* Fix iOS Safari 100vh issue */
-    height: -webkit-fill-available;
+    /* Fix iOS Safari 100vh issue - use modern units */
+    height: 100svh; /* Small viewport height - iOS Safari safe */
+    height: -webkit-fill-available; /* iOS Safari specific fallback */
+  }
+  
+  /* Disable problematic effects on iOS */
+  .hero-name-gradient::after {
+    /* Reduce blend mode complexity on iOS */
+    mix-blend-mode: normal;
+    opacity: 0.85;
+  }
+  
+  /* Prevent fixed positioning issues */
+  .glitter-wrap {
+    position: absolute !important;
   }
 }
 
@@ -91,9 +108,11 @@ body {
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;
-  /* iOS Safari viewport height fix */
-  height: 100%;
-  height: -webkit-fill-available;
+  /* iOS Safari viewport height fix - modern units with fallbacks */
+  height: 100%; /* Fallback */
+  height: 100svh; /* Small viewport height - iOS Safari safe */
+  height: 100dvh; /* Dynamic viewport height */
+  height: -webkit-fill-available; /* iOS Safari specific fallback */
 }
 
 /* Tab panel transition */
@@ -189,7 +208,12 @@ html {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  mix-blend-mode: screen;
+  /* iOS-safe blend mode with fallback */
+  opacity: 0.9; /* Fallback for iOS Safari */
+  @supports (mix-blend-mode: screen) {
+    mix-blend-mode: screen;
+    opacity: 1;
+  }
   animation: heroNameShineSweep 5.5s ease-in-out infinite;
 }
 
@@ -673,11 +697,22 @@ html {
 
 /* ——— Glitter particles (Sunset Terra) ——— */
 .glitter-wrap {
-  position: fixed;
+  /* iOS-safe: use absolute instead of fixed to prevent rendering issues */
+  position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+  /* Fallback for iOS Safari */
+  width: 100%;
+  height: 100%;
+}
+
+/* Desktop: can use fixed */
+@media (min-width: 768px) {
+  .glitter-wrap {
+    position: fixed;
+  }
 }
 .glitter-dot {
   position: absolute;
@@ -920,18 +955,17 @@ main .text-gray-500,
 
 /* ——— iOS Safari Specific Fixes ——— */
 @supports (-webkit-touch-callout: none) {
-  /* iOS Safari only */
+  /* iOS Safari only - consolidated fixes */
   html {
-    height: -webkit-fill-available;
+    height: 100svh; /* Small viewport height - iOS Safari safe */
+    height: -webkit-fill-available; /* iOS Safari specific fallback */
   }
   
   body {
-    min-height: -webkit-fill-available;
+    min-height: 100svh; /* Small viewport height - iOS Safari safe */
+    min-height: -webkit-fill-available; /* iOS Safari specific fallback */
     /* Prevent iOS Safari bounce effect */
     overscroll-behavior-y: none;
-    /* Fix iOS Safari 100vh issue */
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
   }
   
   /* Fix iOS Safari viewport units */
@@ -1115,6 +1149,18 @@ main .text-gray-500,
   body {
     overscroll-behavior-y: none;
     -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Replace all 100vh with safe alternatives on iOS */
+  .min-h-screen,
+  .h-screen {
+    min-height: 100svh !important;
+    min-height: -webkit-fill-available !important;
+  }
+  
+  .h-screen {
+    height: 100svh !important;
+    height: -webkit-fill-available !important;
   }
 }
 
