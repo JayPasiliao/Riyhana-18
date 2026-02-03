@@ -2,6 +2,11 @@
 const nextConfig = {
   images: {
     remotePatterns: [],
+    unoptimized: false,
+  },
+  // Ensure proper mobile rendering
+  experimental: {
+    optimizePackageImports: ['googleapis'],
   },
 };
 

@@ -26,6 +26,7 @@ const SHEET_ID = process.env.GOOGLE_SHEET_ID || "1Pkl0ZtshbOWe-aNHQceRRDNhfarLWp
 const SHEET_RANGE = "Sheet1!A:I"; // Name | Address | Contact Number | Email | Facebook | Confirmation | Message | Guest Count | Relationship
 
 async function getAuthClient() {
+  // Don't fail the entire site if credentials aren't configured - return null and handle gracefully
   const credentialsPath = process.env.GOOGLE_SHEETS_CREDENTIALS_PATH;
   const credentialsJson = process.env.GOOGLE_SHEETS_CREDENTIALS;
   
@@ -38,7 +39,8 @@ async function getAuthClient() {
       const fileContent = readFileSync(filePath, "utf-8");
       credentials = JSON.parse(fileContent);
     } catch (err) {
-      throw new Error(`Failed to read credentials file at ${credentialsPath}: ${err instanceof Error ? err.message : "Unknown error"}`);
+      console.error(`Failed to read credentials file at ${credentialsPath}:`, err);
+      return null; // Return null instead of throwing to prevent site crash
     }
   } 
   // Otherwise try environment variable
@@ -48,10 +50,12 @@ async function getAuthClient() {
         ? JSON.parse(credentialsJson) 
         : credentialsJson;
     } catch (err) {
-      throw new Error("Failed to parse GOOGLE_SHEETS_CREDENTIALS JSON");
+      console.error("Failed to parse GOOGLE_SHEETS_CREDENTIALS JSON:", err);
+      return null; // Return null instead of throwing
     }
   } else {
-    throw new Error("Either GOOGLE_SHEETS_CREDENTIALS or GOOGLE_SHEETS_CREDENTIALS_PATH must be set");
+    console.warn("Google Sheets credentials not configured");
+    return null; // Return null instead of throwing
   }
 
   const auth = new google.auth.GoogleAuth({
@@ -76,6 +80,12 @@ export async function POST(request: NextRequest) {
     }
 
     const auth = await getAuthClient();
+    if (!auth) {
+      return NextResponse.json(
+        { error: "RSVP service is temporarily unavailable. Please try again later." },
+        { status: 503 }
+      );
+    }
     const sheets = google.sheets({ version: "v4", auth });
 
     // Prepare row data matching sheet headers: Name | Address | Contact Number | Email Address | Facebook Profile | Confirmation | Message | No. of Guest | Relationship
