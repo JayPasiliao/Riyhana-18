@@ -40,3 +40,8 @@ next-env.d.ts
 
 # Large design files (not needed for web build)
 *.skp
+
+# Google Service Account credentials (security)
+credentials/
+**/google-service-account.json
+**/*-service-account.json

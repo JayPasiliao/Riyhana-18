@@ -1,41 +1,124 @@
 import { NextRequest, NextResponse } from "next/server";
+import { google } from "googleapis";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 /**
- * Proxies RSVP form data to Google Apps Script Web App.
- * Set env: RSVP_ENDPOINT (or NEXT_PUBLIC_RSVP_ENDPOINT) = your Web App deploy URL.
- * Sheet headers: Timestamp | Full Name | Contact | Attendance | Guest Count | Meal Preference | Notes
+ * Saves RSVP form data directly to Google Sheets.
+ * 
+ * Required environment variables:
+ * - GOOGLE_SHEETS_CREDENTIALS: JSON string of service account credentials
+ *   OR GOOGLE_SHEETS_CREDENTIALS_PATH: Path to credentials JSON file
+ * - GOOGLE_SHEET_ID: The Google Sheet ID (from the sheet URL)
+ * 
+ * Sheet headers: Name | Address | Contact Number | Email Address | Facebook Profile | Confirmation | Message | No. of Guest | Relationship
+ * 
+ * Setup instructions:
+ * 1. Create a service account in Google Cloud Console
+ * 2. Enable Google Sheets API for your project
+ * 3. Download the service account JSON key
+ * 4. Share your Google Sheet with the service account email (found in the JSON)
+ * 5. Set GOOGLE_SHEETS_CREDENTIALS to the JSON string OR GOOGLE_SHEETS_CREDENTIALS_PATH to file path
+ * 6. Set GOOGLE_SHEET_ID to your sheet ID
  */
-export async function POST(request: NextRequest) {
-  const endpoint =
-    process.env.RSVP_ENDPOINT || process.env.NEXT_PUBLIC_RSVP_ENDPOINT;
 
-  if (!endpoint) {
-    return NextResponse.json(
-      { error: "RSVP endpoint not configured" },
-      { status: 500 }
-    );
+const SHEET_ID = process.env.GOOGLE_SHEET_ID || "1Pkl0ZtshbOWe-aNHQceRRDNhfarLWpN2h-6WJLBMCek";
+const SHEET_RANGE = "Sheet1!A:I"; // Name | Address | Contact Number | Email | Facebook | Confirmation | Message | Guest Count | Relationship
+
+async function getAuthClient() {
+  const credentialsPath = process.env.GOOGLE_SHEETS_CREDENTIALS_PATH;
+  const credentialsJson = process.env.GOOGLE_SHEETS_CREDENTIALS;
+  
+  let credentials;
+
+  // Try reading from file path first
+  if (credentialsPath) {
+    try {
+      const filePath = join(process.cwd(), credentialsPath);
+      const fileContent = readFileSync(filePath, "utf-8");
+      credentials = JSON.parse(fileContent);
+    } catch (err) {
+      throw new Error(`Failed to read credentials file at ${credentialsPath}: ${err instanceof Error ? err.message : "Unknown error"}`);
+    }
+  } 
+  // Otherwise try environment variable
+  else if (credentialsJson) {
+    try {
+      credentials = typeof credentialsJson === "string" 
+        ? JSON.parse(credentialsJson) 
+        : credentialsJson;
+    } catch (err) {
+      throw new Error("Failed to parse GOOGLE_SHEETS_CREDENTIALS JSON");
+    }
+  } else {
+    throw new Error("Either GOOGLE_SHEETS_CREDENTIALS or GOOGLE_SHEETS_CREDENTIALS_PATH must be set");
   }
 
+  const auth = new google.auth.GoogleAuth({
+    credentials,
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+
+  return auth;
+}
+
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
+    const { name, address, contactNumber, emailAddress, facebookProfile, confirmation, message, guestCount, relationship } = body;
 
-    if (!res.ok) {
-      const text = await res.text();
+    // Validate required fields
+    if (!name || !contactNumber || !emailAddress || !confirmation) {
       return NextResponse.json(
-        { error: text || "Failed to submit RSVP" },
-        { status: res.status }
+        { error: "Missing required fields: name, contactNumber, emailAddress, confirmation" },
+        { status: 400 }
       );
     }
 
-    return NextResponse.json({ success: true });
+    const auth = await getAuthClient();
+    const sheets = google.sheets({ version: "v4", auth });
+
+    // Prepare row data matching sheet headers: Name | Address | Contact Number | Email Address | Facebook Profile | Confirmation | Message | No. of Guest | Relationship
+    const values = [[
+      name.trim(),
+      address.trim() || "",
+      contactNumber.trim(),
+      emailAddress.trim(),
+      facebookProfile.trim() || "",
+      confirmation,
+      message.trim() || "",
+      guestCount || 1,
+      relationship.trim() || "",
+    ]];
+
+    // Append the row to the sheet
+    const response = await sheets.spreadsheets.values.append({
+      spreadsheetId: SHEET_ID,
+      range: SHEET_RANGE,
+      valueInputOption: "USER_ENTERED",
+      insertDataOption: "INSERT_ROWS",
+      requestBody: {
+        values,
+      },
+    });
+
+    if (!response.data) {
+      throw new Error("No response from Google Sheets API");
+    }
+
+    return NextResponse.json({ 
+      success: true,
+      message: "RSVP submitted successfully"
+    });
   } catch (err) {
+    console.error("RSVP submission error:", err);
+    
+    const errorMessage = err instanceof Error 
+      ? err.message 
+      : "Failed to submit RSVP. Please try again.";
+
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Network error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

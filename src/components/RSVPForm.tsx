@@ -5,32 +5,36 @@ import PillButton from "./PillButton";
 import SectionCard from "./SectionCard";
 
 /**
- * RSVP form submits via /api/rsvp, which forwards to Google Apps Script Web App.
- * Set env: NEXT_PUBLIC_RSVP_ENDPOINT or RSVP_ENDPOINT = your Web App URL (e.g. https://script.google.com/macros/s/.../exec)
+ * RSVP form submits to /api/rsvp, which saves directly to Google Sheets.
  *
  * Google Sheet columns (headers):
- * Timestamp | Full Name | Contact | Attendance | Guest Count | Meal Preference | Notes
+ * Name | Address | Contact Number | Email Address | Facebook Profile | Confirmation | Message | No. of Guest | Relationship
  */
 
-type Attendance = "yes" | "no";
-type MealPreference = "chicken" | "fish" | "vegetarian" | "other";
+type Confirmation = "yes" | "no";
 
 interface FormState {
-  fullName: string;
-  contact: string;
-  attendance: Attendance;
+  name: string;
+  address: string;
+  contactNumber: string;
+  emailAddress: string;
+  facebookProfile: string;
+  confirmation: Confirmation;
+  message: string;
   guestCount: number;
-  mealPreference: MealPreference;
-  notes: string;
+  relationship: string;
 }
 
 const INITIAL_STATE: FormState = {
-  fullName: "",
-  contact: "",
-  attendance: "yes",
+  name: "",
+  address: "",
+  contactNumber: "",
+  emailAddress: "",
+  facebookProfile: "",
+  confirmation: "yes",
   guestCount: 1,
-  mealPreference: "chicken",
-  notes: "",
+  message: "",
+  relationship: "",
 };
 
 export default function RSVPForm() {
@@ -46,13 +50,15 @@ export default function RSVPForm() {
 
     try {
       const body = {
-        timestamp: new Date().toISOString(),
-        fullName: form.fullName.trim(),
-        contact: form.contact.trim(),
-        attendance: form.attendance,
+        name: form.name.trim(),
+        address: form.address.trim(),
+        contactNumber: form.contactNumber.trim(),
+        emailAddress: form.emailAddress.trim(),
+        facebookProfile: form.facebookProfile.trim(),
+        confirmation: form.confirmation,
+        message: form.message.trim(),
         guestCount: form.guestCount,
-        mealPreference: form.mealPreference,
-        notes: form.notes.trim() || "",
+        relationship: form.relationship.trim(),
       };
 
       const res = await fetch("/api/rsvp", {
@@ -80,9 +86,32 @@ export default function RSVPForm() {
   if (status === "success") {
     return (
       <SectionCard title="RSVP" id="rsvp">
-        <div className="rounded-2xl border border-warm-taupe/50 bg-soft-nude-beige/40 p-8 text-center">
-          <p className="text-xl font-serif text-gray-800 mb-2">Thank you for responding!</p>
-          <p className="text-gray-600">We&apos;re excited to celebrate with you.</p>
+        <div className="rounded-2xl border border-warm-taupe/50 bg-soft-nude-beige/40 p-8 sm:p-10 text-center">
+          <div className="mb-4">
+            <svg 
+              className="w-16 h-16 mx-auto text-warm-taupe mb-4" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" 
+              />
+            </svg>
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-serif text-warm-taupe mb-3 font-semibold">
+            Thank you for responding!
+          </h3>
+          <p className="text-lg text-gray-700 mb-2">
+            Your RSVP has been received and saved.
+          </p>
+          <p className="text-base text-gray-600">
+            We&apos;re excited to celebrate with you on this special day.
+          </p>
         </div>
       </SectionCard>
     );
@@ -93,14 +122,14 @@ export default function RSVPForm() {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="rsvp-name" className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name <span className="text-gold">*</span>
+            Name <span className="text-gold">*</span>
           </label>
           <input
             id="rsvp-name"
             type="text"
             required
-            value={form.fullName}
-            onChange={(e) => setForm((f) => ({ ...f, fullName: e.target.value }))}
+            value={form.name}
+            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
             className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
             placeholder="Your full name"
             disabled={status === "loading"}
@@ -108,34 +137,80 @@ export default function RSVPForm() {
         </div>
 
         <div>
-          <label htmlFor="rsvp-contact" className="block text-sm font-medium text-gray-700 mb-1">
-            Email or Phone <span className="text-gold">*</span>
+          <label htmlFor="rsvp-address" className="block text-sm font-medium text-gray-700 mb-1">
+            Address
           </label>
           <input
-            id="rsvp-contact"
+            id="rsvp-address"
             type="text"
-            required
-            value={form.contact}
-            onChange={(e) => setForm((f) => ({ ...f, contact: e.target.value }))}
+            value={form.address}
+            onChange={(e) => setForm((f) => ({ ...f, address: e.target.value }))}
             className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
-            placeholder="Email or phone number"
+            placeholder="Your address"
+            disabled={status === "loading"}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="rsvp-contact-number" className="block text-sm font-medium text-gray-700 mb-1">
+            Contact Number <span className="text-gold">*</span>
+          </label>
+          <input
+            id="rsvp-contact-number"
+            type="tel"
+            required
+            value={form.contactNumber}
+            onChange={(e) => setForm((f) => ({ ...f, contactNumber: e.target.value }))}
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            placeholder="Phone number"
+            disabled={status === "loading"}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="rsvp-email" className="block text-sm font-medium text-gray-700 mb-1">
+            Email Address <span className="text-gold">*</span>
+          </label>
+          <input
+            id="rsvp-email"
+            type="email"
+            required
+            value={form.emailAddress}
+            onChange={(e) => setForm((f) => ({ ...f, emailAddress: e.target.value }))}
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            placeholder="your.email@example.com"
+            disabled={status === "loading"}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="rsvp-facebook" className="block text-sm font-medium text-gray-700 mb-1">
+            Facebook Profile
+          </label>
+          <input
+            id="rsvp-facebook"
+            type="url"
+            value={form.facebookProfile}
+            onChange={(e) => setForm((f) => ({ ...f, facebookProfile: e.target.value }))}
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            placeholder="https://facebook.com/yourprofile"
             disabled={status === "loading"}
           />
         </div>
 
         <div>
           <span className="block text-sm font-medium text-gray-700 mb-2">
-            Attendance <span className="text-gold">*</span>
+            Confirmation <span className="text-gold">*</span>
           </span>
           <div className="flex gap-4">
             {(["yes", "no"] as const).map((opt) => (
               <label key={opt} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
-                  name="attendance"
+                  name="confirmation"
                   value={opt}
-                  checked={form.attendance === opt}
-                  onChange={(e) => setForm((f) => ({ ...f, attendance: e.target.value as Attendance }))}
+                  checked={form.confirmation === opt}
+                  onChange={(e) => setForm((f) => ({ ...f, confirmation: e.target.value as Confirmation }))}
                   disabled={status === "loading"}
                   className="rounded-full border-gold text-gold focus:ring-gold"
                 />
@@ -147,7 +222,7 @@ export default function RSVPForm() {
 
         <div>
           <label htmlFor="rsvp-guests" className="block text-sm font-medium text-gray-700 mb-1">
-            Guest Count (1–5)
+            No. of Guest
           </label>
           <select
             id="rsvp-guests"
@@ -156,41 +231,38 @@ export default function RSVPForm() {
             className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all duration-300"
             disabled={status === "loading"}
           >
-            {[1, 2, 3, 4, 5].map((n) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
               <option key={n} value={n}>{n}</option>
             ))}
           </select>
         </div>
 
         <div>
-          <label htmlFor="rsvp-meal" className="block text-sm font-medium text-gray-700 mb-1">
-            Meal Preference
+          <label htmlFor="rsvp-relationship" className="block text-sm font-medium text-gray-700 mb-1">
+            Relationship
           </label>
-          <select
-            id="rsvp-meal"
-            value={form.mealPreference}
-            onChange={(e) => setForm((f) => ({ ...f, mealPreference: e.target.value as MealPreference }))}
-            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 outline-none transition-all duration-300"
+          <input
+            id="rsvp-relationship"
+            type="text"
+            value={form.relationship}
+            onChange={(e) => setForm((f) => ({ ...f, relationship: e.target.value }))}
+            className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 placeholder:text-gray-400"
+            placeholder="e.g., Friend, Family, Colleague"
             disabled={status === "loading"}
-          >
-            <option value="chicken">Chicken</option>
-            <option value="fish">Fish</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="other">Other</option>
-          </select>
+          />
         </div>
 
         <div>
-          <label htmlFor="rsvp-notes" className="block text-sm font-medium text-gray-700 mb-1">
-            Notes (optional)
+          <label htmlFor="rsvp-message" className="block text-sm font-medium text-gray-700 mb-1">
+            Message
           </label>
           <textarea
-            id="rsvp-notes"
-            value={form.notes}
-            onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+            id="rsvp-message"
+            value={form.message}
+            onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
             rows={3}
             className="w-full rounded-xl border border-gold/25 bg-white/50 px-4 py-3 focus:border-gold focus:ring-2 focus:ring-gold/25 focus:bg-white/80 outline-none transition-all duration-300 resize-none placeholder:text-gray-400"
-            placeholder="Any dietary requirements or message..."
+            placeholder="Any message or special requests..."
             disabled={status === "loading"}
           />
         </div>
