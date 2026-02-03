@@ -34,13 +34,24 @@ body {
   background-repeat: no-repeat;
   background-attachment: scroll; /* iOS Safari doesn't support fixed on mobile */
   min-height: 100vh;
-  /* iOS Safari specific fixes */
+  /* Cross-browser font smoothing */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Prevent iOS Safari from bouncing on scroll */
+  text-rendering: optimizeLegibility;
+  /* Prevent scroll bounce on all mobile browsers */
   overscroll-behavior: none;
+  overscroll-behavior-y: none;
   /* Fix iOS Safari viewport height issue */
   min-height: -webkit-fill-available;
+  /* Prevent text selection on tap (improves touch response) */
+  -webkit-tap-highlight-color: rgba(221, 179, 152, 0.2);
+  -webkit-touch-callout: default;
+  /* Better touch handling */
+  touch-action: manipulation;
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* Desktop: fixed attachment for seamless scroll; iOS always uses scroll */
@@ -1037,6 +1048,32 @@ main .text-gray-500,
   /* Venue map - better mobile sizing */
   iframe {
     min-height: 300px;
+    max-width: 100%;
+    /* Prevent iframe overflow */
+    border: none;
+  }
+  
+  /* Images - responsive and prevent overflow */
+  img {
+    max-width: 100%;
+    height: auto;
+    /* Better image rendering */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* SVG - prevent overflow */
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Tables - make scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
   
   /* Program timeline - better mobile */
@@ -1047,6 +1084,118 @@ main .text-gray-500,
   /* Parents section - better mobile */
   .parents-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  html {
+    height: -webkit-fill-available;
+  }
+  
+  body {
+    min-height: -webkit-fill-available;
+    /* Fix iOS Safari viewport height */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Fix iOS Safari input zoom */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* Fix iOS Safari scroll bounce */
+  body {
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Android Chrome specific fixes */
+@supports (-webkit-appearance: none) and (not (-webkit-touch-callout: none)) {
+  /* Android Chrome optimizations */
+  body {
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  /* Better touch response on Android */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: rgba(221, 179, 152, 0.3);
+  }
+}
+
+/* Samsung Internet specific fixes */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* Samsung Internet optimizations */
+  body {
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* Microsoft Edge Mobile fixes */
+@supports (-ms-ime-align: auto) {
+  body {
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+}
+
+/* Firefox Mobile fixes */
+@-moz-document url-prefix() {
+  body {
+    -moz-font-smoothing: grayscale;
+  }
+  
+  /* Fix Firefox mobile input sizing */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Very small screens (iPhone SE, etc.) */
+@media (max-width: 375px) {
+  .hero-name-gradient {
+    font-size: 2rem !important;
+  }
+  
+  section {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .card-glass {
+    padding: 1rem;
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 896px) and (orientation: landscape) {
+  .hero-name-gradient {
+    font-size: 2rem !important;
+  }
+  
+  section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* High DPI displays (Retina, etc.) */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 

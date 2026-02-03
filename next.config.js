@@ -14,7 +14,7 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
-  // Headers for better iOS compatibility
+  // Headers for comprehensive mobile browser compatibility
   async headers() {
     return [
       {
@@ -51,6 +51,28 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=3600, must-revalidate'
+          },
+          // Mobile browser compatibility headers
+          {
+            key: 'X-UA-Compatible',
+            value: 'IE=edge'
+          },
+          {
+            key: 'MobileOptimized',
+            value: '320'
+          },
+          {
+            key: 'HandheldFriendly',
+            value: 'true'
+          },
+          // Cross-origin resource sharing for mobile browsers
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'unsafe-none'
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups'
           }
         ],
       },

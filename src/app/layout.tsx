@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   },
   other: {
     "mobile-web-app-capable": "yes",
+    // Android Chrome
+    "mobile-web-app-status-bar-style": "default",
+    "theme-color": "#F9EEE2",
+    // Microsoft Edge Mobile
+    "msapplication-TileColor": "#F9EEE2",
+    "msapplication-config": "/browserconfig.xml",
   },
   metadataBase: new URL('https://riyhana18.website'),
   alternates: {
