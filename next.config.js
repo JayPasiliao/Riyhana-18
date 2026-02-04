@@ -14,8 +14,6 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
-  // Turbopack configuration (Next.js 16+)
-  turbopack: {},
   // Headers for comprehensive mobile browser compatibility
   async headers() {
     return [
