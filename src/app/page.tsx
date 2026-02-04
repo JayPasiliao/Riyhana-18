@@ -38,7 +38,14 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [inviewBlocks, setInviewBlocks] = useState<Set<number>>(new Set());
   const entourageBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
-  useScrollActiveSection(setActiveTab);
+  
+  // Wrap hook call in try-catch to prevent crashes
+  try {
+    useScrollActiveSection(setActiveTab);
+  } catch (error) {
+    console.error('Error in useScrollActiveSection:', error);
+    // Continue rendering even if hook fails
+  }
 
   // iOS detection and error handling - moved to useEffect to prevent hydration issues
   useEffect(() => {
@@ -109,7 +116,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen relative dreamy-bg">
+    <main className="min-h-screen relative dreamy-bg" style={{ minHeight: '100vh', background: '#F9EEE2' }}>
       <GlitterParticles />
       <div className="main-reveal relative z-10">
       <HeroSection />
