@@ -194,7 +194,7 @@ export default function Home() {
               <p className="text-gray-700 mb-4">
                 Semi-formal / Elegant attire. Kindly wear neutral tones inspired by warm sunset hues.
               </p>
-              <div className="flex flex-wrap gap-3 items-center" aria-label="Approved dress code colors">
+              <div className="flex flex-wrap gap-3 items-center" aria-label="Approved dress code colors" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
                 {[
                   { label: "Ivory", hex: "#F9EEE2" },
                   { label: "Sand", hex: "#FBE0D2" },
@@ -204,9 +204,21 @@ export default function Home() {
                   <span
                     key={label}
                     className="inline-flex items-center gap-2 rounded-full border border-white/30 px-3 py-1.5 text-sm font-medium shadow-sm"
-                    style={{ backgroundColor: hex, color: "rgba(60,45,40,0.9)" }}
+                    style={{ 
+                      backgroundColor: hex, 
+                      color: "rgba(60,45,40,0.9)",
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      borderRadius: '9999px',
+                      border: '1px solid rgba(255,255,255,0.3)',
+                      padding: '0.375rem 0.75rem',
+                      fontSize: '0.875rem',
+                      fontWeight: '500',
+                      whiteSpace: 'nowrap'
+                    }}
                   >
-                    <span className="w-3 h-3 rounded-full border border-white/50 shrink-0" style={{ backgroundColor: hex }} aria-hidden />
+                    <span className="w-3 h-3 rounded-full border border-white/50 shrink-0" style={{ backgroundColor: hex, width: '0.75rem', height: '0.75rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.5)', flexShrink: 0 }} aria-hidden />
                     {label}
                   </span>
                 ))}

@@ -47,8 +47,8 @@ export default function HeroSection() {
       className="relative w-full min-h-screen overflow-hidden"
       aria-label="Hero"
     >
-      {/* ——— 4-column photo grid (unchanged) ——— */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 min-h-[100svh] min-h-[100dvh] min-h-screen h-[100svh] h-[100dvh] h-screen w-full overflow-hidden hero-section-container">
+      {/* ——— 4-column photo grid ——— */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 min-h-screen w-full overflow-hidden hero-section-container" style={{ height: '100vh', minHeight: '100svh' }}>
         {HERO_PHOTOS.map((photo, index) => (
           <div
             key={photo.src}
@@ -98,7 +98,7 @@ export default function HeroSection() {
         <div className="text-center w-full max-w-5xl">
           {/* 1. Top tagline — edit HERO_TAGLINE constant above */}
           <p
-            className="text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase text-warm-taupe font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards]"
+            className="text-[0.65rem] sm:text-xs tracking-[0.35em] uppercase text-warm-taupe font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards] whitespace-nowrap"
             style={{
               animationDelay: "0.2s",
               textShadow: "0 1px 4px rgba(255,255,255,0.5)",
@@ -133,7 +133,7 @@ export default function HeroSection() {
 
           {/* 4. Date and time — edit via EVENT_DATE_LINE & EVENT_TIME in constants */}
           <p
-            className="mt-4 sm:mt-6 text-xs sm:text-sm tracking-[0.15em] uppercase text-warm-taupe/90 font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards]"
+            className="mt-4 sm:mt-6 text-xs sm:text-sm tracking-[0.15em] uppercase text-warm-taupe/90 font-sans animate-fade-up opacity-0 [animation-fill-mode:forwards] whitespace-nowrap"
             style={{
               animationDelay: "0.65s",
               textShadow: "0 1px 6px rgba(255,255,255,0.4)",
