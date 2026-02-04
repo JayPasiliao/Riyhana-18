@@ -46,6 +46,7 @@ export default function HeroSection() {
     <section
       className="relative w-full min-h-screen overflow-hidden"
       aria-label="Hero"
+      style={{ display: 'block', width: '100%', minHeight: '100vh', position: 'relative' }}
     >
       {/* ——— 4-column photo grid ——— */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-4 md:grid-rows-2 lg:grid-rows-1 min-h-screen w-full overflow-hidden hero-section-container" style={{ height: '100vh', minHeight: '100svh' }}>

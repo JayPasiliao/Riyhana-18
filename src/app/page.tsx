@@ -116,9 +116,9 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen relative dreamy-bg" style={{ minHeight: '100vh', background: '#F9EEE2' }}>
+    <main className="min-h-screen relative dreamy-bg" style={{ minHeight: '100vh', background: '#F9EEE2', display: 'block', width: '100%' }}>
       <GlitterParticles />
-      <div className="main-reveal relative z-10">
+      <div className="main-reveal relative z-10" style={{ display: 'block', width: '100%' }}>
       <HeroSection />
 
       <PillTabNav activeTab={activeTab} onTabChange={setActiveTab} />
