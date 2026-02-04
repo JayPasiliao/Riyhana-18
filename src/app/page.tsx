@@ -39,13 +39,8 @@ export default function Home() {
   const [inviewBlocks, setInviewBlocks] = useState<Set<number>>(new Set());
   const entourageBlockRefs = useRef<(HTMLDivElement | null)[]>([]);
   
-  // Wrap hook call in try-catch to prevent crashes
-  try {
-    useScrollActiveSection(setActiveTab);
-  } catch (error) {
-    console.error('Error in useScrollActiveSection:', error);
-    // Continue rendering even if hook fails
-  }
+  // Hook must be called unconditionally (React rules)
+  useScrollActiveSection(setActiveTab);
 
   // iOS detection and error handling - moved to useEffect to prevent hydration issues
   useEffect(() => {
@@ -116,14 +111,10 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen relative dreamy-bg" style={{ minHeight: '100vh', background: '#F9EEE2', display: 'block', width: '100%', position: 'relative' }}>
-      <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F9EEE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
-        <GlitterParticles />
-      </Suspense>
-      <div className="main-reveal relative z-10" style={{ display: 'block', width: '100%', position: 'relative' }}>
-      <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F9EEE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading Hero...</div>}>
-        <HeroSection />
-      </Suspense>
+    <main className="min-h-screen relative dreamy-bg">
+      <GlitterParticles />
+      <div className="main-reveal relative z-10">
+      <HeroSection />
 
       <PillTabNav activeTab={activeTab} onTabChange={setActiveTab} />
 
@@ -205,7 +196,7 @@ export default function Home() {
               <p className="text-gray-700 mb-4">
                 Semi-formal / Elegant attire. Kindly wear neutral tones inspired by warm sunset hues.
               </p>
-              <div className="flex flex-wrap gap-3 items-center" aria-label="Approved dress code colors" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center' }}>
+              <div className="flex flex-wrap gap-3 items-center dress-code-chips" aria-label="Approved dress code colors">
                 {[
                   { label: "Ivory", hex: "#F9EEE2" },
                   { label: "Sand", hex: "#FBE0D2" },
@@ -214,22 +205,13 @@ export default function Home() {
                 ].map(({ label, hex }) => (
                   <span
                     key={label}
-                    className="inline-flex items-center gap-2 rounded-full border border-white/30 px-3 py-1.5 text-sm font-medium shadow-sm"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/30 px-3 py-1.5 text-sm font-medium shadow-sm whitespace-nowrap"
                     style={{ 
                       backgroundColor: hex, 
                       color: "rgba(60,45,40,0.9)",
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      borderRadius: '9999px',
-                      border: '1px solid rgba(255,255,255,0.3)',
-                      padding: '0.375rem 0.75rem',
-                      fontSize: '0.875rem',
-                      fontWeight: '500',
-                      whiteSpace: 'nowrap'
                     }}
                   >
-                    <span className="w-3 h-3 rounded-full border border-white/50 shrink-0" style={{ backgroundColor: hex, width: '0.75rem', height: '0.75rem', borderRadius: '9999px', border: '1px solid rgba(255,255,255,0.5)', flexShrink: 0 }} aria-hidden />
+                    <span className="w-3 h-3 rounded-full border border-white/50 shrink-0" style={{ backgroundColor: hex }} aria-hidden />
                     {label}
                   </span>
                 ))}
@@ -419,9 +401,8 @@ export default function Home() {
                     </svg>
                   </button>
                   <div
-                    className="faq-accordion-content"
+                    className={`faq-accordion-content ${openFaq === i ? 'faq-open' : 'faq-closed'}`}
                     data-open={openFaq === i}
-                    style={{ maxHeight: openFaq === i ? 200 : 0 }}
                   >
                     <p className="text-gray-700 text-sm px-4 pb-3 pt-0">{faq.a}</p>
                   </div>

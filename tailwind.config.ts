@@ -5,6 +5,31 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/hooks/**/*.{js,ts,jsx,tsx}",
+  ],
+  // Ensure all dynamic classes are detected (prevents dev/prod mismatch)
+  safelist: [
+    'details-section-visible',
+    'is-inview',
+    'rotate-180',
+    'details-card-enter',
+    'entourage-designation-block',
+    // Hero section rounded classes
+    'rounded-b',
+    'rounded-t',
+    'rounded-br',
+    'rounded-bl',
+    'rounded-tr',
+    'rounded-tl',
+    'rounded',
+    // Responsive variants
+    'md:rounded-br',
+    'md:rounded-bl',
+    'md:rounded-tr',
+    'md:rounded-tl',
+    'lg:rounded-br',
+    'lg:rounded',
+    'lg:rounded-bl',
   ],
   theme: {
     extend: {

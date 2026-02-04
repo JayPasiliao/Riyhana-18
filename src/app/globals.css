@@ -25,17 +25,9 @@ html, body {
   padding: 0;
 }
 
-/* Andrew Elegant Regular — used for "Riyhana Velarde" in hero (file: public/fonts/ANDREW ELEGANT Regular.ttf) */
-@font-face {
-  font-family: "Andrew Elegant";
-  src: url("/fonts/ANDREW%20ELEGANT%20Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Andrew Elegant Regular — loaded via next/font in layout.tsx */
 .font-andrew-elegant {
-  font-family: "Andrew Elegant", cursive;
+  font-family: var(--font-andrew-elegant), cursive;
 }
 
 :root {
@@ -50,17 +42,17 @@ html, body {
 
 body {
   @apply antialiased;
-  color: rgba(60, 45, 40, 0.9) !important;
-  background-color: #F9EEE2 !important;
+  color: rgba(60, 45, 40, 0.9);
+  background-color: #F9EEE2;
   background-image: url("/Background/istockphoto-1366257751-612x612.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll; /* iOS Safari doesn't support fixed on mobile */
   /* iOS-safe viewport height - use modern units with fallbacks */
-  min-height: 100vh !important; /* Fallback for older browsers */
-  min-height: 100svh !important; /* Small viewport height - iOS Safari safe */
-  min-height: 100dvh !important; /* Dynamic viewport height - modern browsers */
+  min-height: 100vh; /* Fallback for older browsers */
+  min-height: 100svh; /* Small viewport height - iOS Safari safe */
+  min-height: 100dvh; /* Dynamic viewport height - modern browsers */
   /* Cross-browser font smoothing */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -79,8 +71,8 @@ body {
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0;
+  padding: 0;
 }
 
 /* Desktop: fixed attachment for seamless scroll; iOS always uses scroll */
@@ -125,44 +117,46 @@ body {
   max-width: 100vw;
 }
 
-/* Hero section fixes */
+/* Hero section grid - consistent in dev and prod */
 .hero-section-container {
-  display: grid !important;
-  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
 @media (min-width: 768px) {
   .hero-section-container {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
   .hero-section-container {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    grid-template-rows: repeat(1, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: repeat(1, minmax(0, 1fr));
   }
 }
 
-/* Prevent text truncation */
+/* Prevent text truncation - consistent rendering */
 .hero-name-gradient,
 .hero-section-container p,
 .hero-section-container h1 {
-  white-space: normal !important;
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
-/* Ensure dress code chips display correctly */
-.flex.flex-wrap {
-  display: flex !important;
-  flex-wrap: wrap !important;
+/* Ensure dress code chips display correctly - consistent in dev and prod */
+.dress-code-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
 }
 
-.flex.flex-wrap > * {
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
+.dress-code-chips > * {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* Focus states for accessibility */
@@ -821,6 +815,12 @@ html {
 .faq-accordion-content {
   overflow: hidden;
   transition: max-height 0.35s ease-out;
+}
+.faq-accordion-content.faq-closed {
+  max-height: 0;
+}
+.faq-accordion-content.faq-open {
+  max-height: 200px;
 }
 .faq-accordion-content[data-open="false"] {
   max-height: 0;

@@ -1,6 +1,23 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import ClientErrorBoundary from "@/components/ClientErrorBoundary";
+
+// Load Andrew Elegant font using next/font for consistent loading between dev and prod
+// Path is relative to this file (src/app/layout.tsx)
+const andrewElegant = localFont({
+  src: [
+    {
+      path: "../../public/fonts/ANDREW ELEGANT Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-andrew-elegant",
+  display: "swap",
+  fallback: ["cursive", "serif"],
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "Riyhana Marielle Velarde | Debut · 18th Birthday Celebration",
@@ -68,12 +85,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full" suppressHydrationWarning>
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
-      <body className="min-h-screen antialiased" suppressHydrationWarning style={{ margin: 0, padding: 0, minHeight: '100vh', background: '#F9EEE2' }}>
+    <html lang="en" className={`h-full ${andrewElegant.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen antialiased font-sans" suppressHydrationWarning>
         <ClientErrorBoundary>
           {children}
         </ClientErrorBoundary>
