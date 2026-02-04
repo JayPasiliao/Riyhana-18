@@ -126,6 +126,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen relative dreamy-bg">
+      {/* Tailwind test - remove after confirming styles work */}
+      <div className="bg-red-600 text-white p-6 rounded-xl m-4 text-center font-bold">
+        Tailwind is working ✅
+      </div>
       <GlitterParticles />
       <div className="main-reveal relative z-10">
       <HeroSection />

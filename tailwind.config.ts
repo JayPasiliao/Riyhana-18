@@ -2,10 +2,21 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/hooks/**/*.{js,ts,jsx,tsx}",
+    // App Router (src/app)
+    "./app/**/*.{ts,tsx,js,jsx,mdx}",
+    "./src/app/**/*.{ts,tsx,js,jsx,mdx}",
+    // Pages Router (if used)
+    "./pages/**/*.{ts,tsx,js,jsx,mdx}",
+    "./src/pages/**/*.{ts,tsx,js,jsx,mdx}",
+    // Components
+    "./components/**/*.{ts,tsx,js,jsx,mdx}",
+    "./src/components/**/*.{ts,tsx,js,jsx,mdx}",
+    // Hooks and lib
+    "./src/hooks/**/*.{ts,tsx,js,jsx}",
+    "./lib/**/*.{ts,tsx,js,jsx}",
+    "./src/lib/**/*.{ts,tsx,js,jsx}",
+    // Catch-all for src directory
+    "./src/**/*.{ts,tsx,js,jsx,mdx}",
   ],
   // Ensure all dynamic classes are detected (prevents dev/prod mismatch)
   safelist: [
