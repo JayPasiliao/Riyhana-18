@@ -126,10 +126,6 @@ export default function Home() {
 
   return (
     <main className="min-h-screen relative dreamy-bg">
-      {/* Tailwind test - remove after confirming styles work */}
-      <div className="bg-red-600 text-white p-6 rounded-xl m-4 text-center font-bold">
-        Tailwind is working ✅
-      </div>
       <GlitterParticles />
       <div className="main-reveal relative z-10">
       <HeroSection />
@@ -145,40 +141,44 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* When & Where card */}
-            <article
-              className="details-card-enter card-glass card-group-curved-frame focus-within:outline-none focus-within:ring-2 focus-within:ring-gold/40 focus-within:ring-offset-2 rounded-2xl p-6 sm:p-8 relative"
-              tabIndex={0}
-            >
-              <h2 className="details-heading text-xl sm:text-2xl font-serif font-semibold mb-4 section-title-underline w-fit">
-                When & Where
-              </h2>
-              <div className="space-y-4">
-                <p className="details-body flex items-start gap-3">
-                  <IconCalendar />
-                  <span><strong className="text-gold font-medium">Date</strong><br />{EVENT_DATE_LINE}</span>
-                </p>
-                <p className="details-body flex items-start gap-3">
-                  <IconPin />
-                  <span><strong className="text-gold font-medium">Venue</strong><br />{VENUE_NAME}</span>
-                </p>
+            <div className="details-card-wrap details-card-enter">
+              <div className="details-card-inner card-glass card-group-curved-frame focus-within:outline-none focus-within:ring-2 focus-within:ring-gold/40 focus-within:ring-offset-2 relative"
+                tabIndex={0}
+              >
+                <h2 className="details-heading text-xl sm:text-2xl font-serif font-semibold mb-4 section-title-underline w-fit">
+                  <span className="details-title-divider" aria-hidden></span>
+                  When & Where
+                </h2>
+                <div className="space-y-4">
+                  <p className="details-body flex items-start gap-3">
+                    <IconCalendar />
+                    <span><strong className="text-gold font-medium">Date</strong><br />{EVENT_DATE_LINE}</span>
+                  </p>
+                  <p className="details-body flex items-start gap-3">
+                    <IconPin />
+                    <span><strong className="text-gold font-medium">Venue</strong><br />{VENUE_NAME}</span>
+                  </p>
+                </div>
               </div>
-            </article>
+            </div>
 
             {/* Celebration card — decorative quote in background */}
-            <article
-              className="details-card-enter card-glass card-group-curved-frame focus-within:outline-none focus-within:ring-2 focus-within:ring-gold/40 focus-within:ring-offset-2 rounded-2xl relative overflow-hidden p-6 sm:p-8"
-              tabIndex={0}
-            >
-              <span className="absolute top-4 left-4 text-5xl sm:text-6xl font-serif text-gold/10 select-none pointer-events-none" aria-hidden>&ldquo;</span>
-              <h2 className="details-heading text-xl sm:text-2xl font-serif font-semibold mb-4 section-title-underline w-fit relative">
-                Celebration
-              </h2>
-              <p className="details-body leading-relaxed relative">
-                Join us in celebrating Riyhana Velarde&apos;s 18th birthday—a milestone debut filled with elegance, gratitude, and joy. We can&apos;t wait to share this special evening with you.
-              </p>
-            </article>
+            <div className="details-card-wrap details-card-enter">
+              <div className="details-card-inner card-glass card-group-curved-frame focus-within:outline-none focus-within:ring-2 focus-within:ring-gold/40 focus-within:ring-offset-2 relative overflow-hidden"
+                tabIndex={0}
+              >
+                <span className="absolute top-4 left-4 text-5xl sm:text-6xl font-serif text-gold/10 select-none pointer-events-none" aria-hidden>&ldquo;</span>
+                <h2 className="details-heading text-xl sm:text-2xl font-serif font-semibold mb-4 section-title-underline w-fit relative">
+                  <span className="details-title-divider" aria-hidden></span>
+                  Celebration
+                </h2>
+                <p className="details-body leading-relaxed relative">
+                  Join us in celebrating Riyhana Velarde&apos;s 18th birthday—a milestone debut filled with elegance, gratitude, and joy. We can&apos;t wait to share this special evening with you.
+                </p>
+              </div>
             </div>
           </div>
+        </div>
         </section>
 
       <div className="w-full py-1" aria-hidden />

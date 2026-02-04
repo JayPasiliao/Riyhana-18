@@ -1,0 +1,151 @@
+/* ============================================
+   CARDS, NAVIGATION & CHIPS STYLES
+   Extracted from src/app/globals.css
+   ============================================ */
+
+/* ——— Cards: Sunset Terra base, soft warm shadow ——— */
+.card-glass {
+  background: rgba(249, 238, 226, 0.92);
+  border: 1px solid rgba(221, 179, 152, 0.35);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px -8px rgba(221, 179, 152, 0.25);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.card-glass:hover,
+.card-glass:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px -12px rgba(221, 179, 152, 0.3);
+  border-color: rgba(221, 179, 152, 0.5);
+}
+
+/* Card text colors */
+.card-glass,
+.card-glass h1,
+.card-glass h2,
+.card-glass h3,
+.card-glass p,
+.card-glass span,
+.card-glass li,
+.card-glass label,
+.card-glass strong {
+  color: rgba(60, 45, 40, 0.9);
+}
+
+/* Card form inputs */
+.card-glass input::placeholder,
+.card-glass textarea::placeholder {
+  color: rgba(60, 45, 40, 0.5);
+}
+
+.card-glass input,
+.card-glass textarea,
+.card-glass select {
+  color: rgba(60, 45, 40, 0.95);
+  border-color: rgba(221, 179, 152, 0.5);
+}
+
+.card-glass input:focus,
+.card-glass textarea:focus,
+.card-glass select:focus {
+  border-color: #ddb398;
+  --tw-ring-color: rgba(221, 179, 152, 0.4);
+}
+
+/* Card / block with elliptical HUD frame */
+.card-group-curved-frame {
+  position: relative;
+}
+
+.card-group-curved-frame::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 1.5rem;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(221, 179, 152, 0.2) 0%, rgba(248, 197, 173, 0.25) 50%, rgba(221, 179, 152, 0.2) 100%) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  animation: curvedFrameFade 1s ease-out 0.3s forwards;
+}
+
+@keyframes curvedFrameFade {
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-group-curved-frame::before {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ——— Nav: Sunset Terra ——— */
+.nav-dreamy {
+  box-shadow: 0 4px 24px -4px rgba(221, 179, 152, 0.3);
+}
+
+/* Navigation button styles (mobile) */
+@media (max-width: 640px) {
+  nav button {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+/* ——— Dress Code Chips ——— */
+.dress-code-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.dress-code-chips > * {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Chip styling is done via inline styles in the component:
+   - backgroundColor: hex color
+   - color: rgba(60,45,40,0.9)
+   - Tailwind classes: inline-flex items-center gap-2 rounded-full border border-white/30 px-3 py-1.5 text-sm font-medium shadow-sm whitespace-nowrap
+*/
+
+/* ——— Details Card Wrapper ——— */
+.details-card-wrap {
+  background: linear-gradient(135deg, rgba(251, 224, 210, 0.9) 0%, rgba(249, 238, 226, 0.95) 100%);
+  padding: 1px;
+  border-radius: 1rem;
+  box-shadow: 0 6px 24px -4px rgba(221, 179, 152, 0.3);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.details-card-wrap:hover,
+.details-card-wrap:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px -4px rgba(221, 179, 152, 0.35);
+}
+
+.details-card-inner {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: calc(1rem - 1px);
+  padding: 1.5rem 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .details-card-inner {
+    padding: 2rem;
+  }
+}
+
+/* ——— Mobile Card Adjustments ——— */
+@media (max-width: 640px) {
+  .card-glass {
+    padding: 1.25rem;
+  }
+}
