@@ -14,15 +14,8 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
-  // Ensure CSS is properly handled
-  webpack: (config) => {
-    // Ensure CSS modules and global CSS are processed correctly
-    config.module.rules.push({
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader'],
-    });
-    return config;
-  },
+  // Turbopack configuration (Next.js 16+)
+  turbopack: {},
   // Headers for comprehensive mobile browser compatibility
   async headers() {
     return [
