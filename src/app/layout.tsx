@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: "Riyhana Marielle Velarde | Debut · 18th Birthday Celebration",
@@ -73,7 +74,9 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="min-h-screen antialiased" suppressHydrationWarning style={{ margin: 0, padding: 0, minHeight: '100vh', background: '#F9EEE2' }}>
-        {children}
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
       </body>
     </html>
   );
