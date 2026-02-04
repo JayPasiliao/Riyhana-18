@@ -11,7 +11,14 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    // Log full error details for debugging
+    console.error("Error component received error:", error);
+    console.error("Error name:", error.name);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
+    if (error.digest) {
+      console.error("Error digest:", error.digest);
+    }
   }, [error]);
 
   return (

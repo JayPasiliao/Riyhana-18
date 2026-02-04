@@ -74,14 +74,24 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const observers = entourageBlockRefs.current
-      .filter(Boolean)
-      .map((el, i) => ({
-        el: el as HTMLDivElement,
-        i,
-      }));
-    if (observers.length === 0) return;
-    const io = new IntersectionObserver(
+    // Guard: only run on client
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    
+    // Guard: IntersectionObserver might not be available
+    if (typeof IntersectionObserver === "undefined") {
+      console.warn("IntersectionObserver not available, entourage animations disabled");
+      return;
+    }
+    
+    try {
+      const observers = entourageBlockRefs.current
+        .filter(Boolean)
+        .map((el, i) => ({
+          el: el as HTMLDivElement,
+          i,
+        }));
+      if (observers.length === 0) return;
+      const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const i = (entry.target as HTMLDivElement).dataset.blockIndex;
@@ -96,11 +106,15 @@ export default function Home() {
       },
       { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
     );
-    observers.forEach(({ el, i }) => {
-      el.dataset.blockIndex = String(i);
-      io.observe(el);
-    });
-    return () => io.disconnect();
+      observers.forEach(({ el, i }) => {
+        el.dataset.blockIndex = String(i);
+        io.observe(el);
+      });
+      return () => io.disconnect();
+    } catch (error) {
+      console.error("Error setting up entourage intersection observer:", error);
+      return;
+    }
   }, []);
 
   const faqs = [

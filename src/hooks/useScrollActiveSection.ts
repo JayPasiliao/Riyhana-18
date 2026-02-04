@@ -18,12 +18,22 @@ export function useScrollActiveSection(
   setActiveRef.current = setActiveTab;
 
   useEffect(() => {
-    const elements = SECTION_IDS.map((id) => document.getElementById(id)).filter(
-      (el): el is HTMLElement => el != null
-    );
-    if (elements.length === 0) return;
+    // Guard: only run on client
+    if (typeof window === "undefined" || typeof document === "undefined") return;
+    
+    // Guard: IntersectionObserver might not be available
+    if (typeof IntersectionObserver === "undefined") {
+      console.warn("IntersectionObserver not available, scroll sync disabled");
+      return;
+    }
+    
+    try {
+      const elements = SECTION_IDS.map((id) => document.getElementById(id)).filter(
+        (el): el is HTMLElement => el != null
+      );
+      if (elements.length === 0) return;
 
-    const observer = new IntersectionObserver(
+      const observer = new IntersectionObserver(
       (entries) => {
         if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
         rafRef.current = requestAnimationFrame(() => {
@@ -50,11 +60,16 @@ export function useScrollActiveSection(
       }
     );
 
-    elements.forEach((el) => observer.observe(el));
-    return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      elements.forEach((el) => observer.unobserve(el));
-    };
+      elements.forEach((el) => observer.observe(el));
+      return () => {
+        if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+        elements.forEach((el) => observer.unobserve(el));
+        observer.disconnect();
+      };
+    } catch (error) {
+      console.error("Error setting up scroll active section observer:", error);
+      return;
+    }
   }, []);
 }
 
