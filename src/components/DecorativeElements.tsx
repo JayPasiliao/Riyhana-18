@@ -13,6 +13,10 @@ export function CurvedArcDivider({ className = "" }: { className?: string }) {
       viewBox="0 0 200 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="200"
+      height="24"
+      preserveAspectRatio="xMidYMid meet"
+      style={{ maxWidth: '12rem', height: '1.5rem', display: 'block' }}
       aria-hidden
     >
       <defs>
@@ -43,7 +47,10 @@ export function WaveLineDivider({ className = "" }: { className?: string }) {
       viewBox="0 0 400 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="400"
+      height="24"
       preserveAspectRatio="none"
+      style={{ width: '100%', height: '0.75rem', display: 'block' }}
       aria-hidden
     >
       <defs>
@@ -89,13 +96,15 @@ export function WaveLineDivider({ className = "" }: { className?: string }) {
 export function HaloBandDivider({ className = "" }: { className?: string }) {
   const id = useId().replace(/:/g, "");
   return (
-    <div className={`curved-hud-halo-band ${className}`} aria-hidden>
+    <div className={`curved-hud-halo-band ${className}`} aria-hidden style={{ display: 'block', width: '100%', height: '6px', margin: '0.5rem 0' }}>
       <svg
         viewBox="0 0 400 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        width="400"
+        height="16"
         preserveAspectRatio="none"
-        className="w-full h-full"
+        style={{ width: '100%', height: '100%' }}
       >
         <defs>
         <radialGradient id={`halo-band-${id}`} cx="50%" cy="50%" r="50%">
@@ -119,7 +128,10 @@ export function GradientCurveDivider({ className = "" }: { className?: string })
       viewBox="0 0 400 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="400"
+      height="20"
       preserveAspectRatio="none"
+      style={{ width: '100%', height: '0.75rem', display: 'block' }}
       aria-hidden
     >
       <defs>
@@ -151,6 +163,10 @@ export function DoubleArcDivider({ className = "" }: { className?: string }) {
       viewBox="0 0 200 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="200"
+      height="20"
+      preserveAspectRatio="xMidYMid meet"
+      style={{ maxWidth: '10rem', height: '1.25rem', display: 'block' }}
       aria-hidden
     >
       <defs>
@@ -185,7 +201,10 @@ export function EllipticalFrameSVG({ className = "" }: { className?: string }) {
       viewBox="0 0 100 100"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="100"
+      height="100"
       preserveAspectRatio="none"
+      style={{ position: 'absolute', inset: '-2px', width: 'calc(100% + 4px)', height: 'calc(100% + 4px)' }}
       aria-hidden
     >
       <defs>
@@ -209,6 +228,10 @@ export function FloralDivider({ className = "" }: { className?: string }) {
       viewBox="0 0 160 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      width="160"
+      height="20"
+      preserveAspectRatio="xMidYMid meet"
+      style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
       aria-hidden
     >
       <defs>
@@ -235,7 +258,10 @@ export function GoldDotsDivider({ className = "" }: { className?: string }) {
       viewBox="0 0 200 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="none"
+      width="200"
+      height="16"
+      preserveAspectRatio="xMidYMid meet"
+      style={{ maxWidth: '14rem', height: '1rem', display: 'block' }}
       aria-hidden
     >
       <defs>

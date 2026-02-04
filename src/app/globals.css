@@ -1122,6 +1122,20 @@ main .text-gray-500,
   svg {
     max-width: 100%;
     height: auto;
+    display: block;
+  }
+  
+  /* Ensure decorative SVGs have proper constraints */
+  .curved-hud-arc,
+  .curved-hud-wave,
+  .curved-hud-double,
+  .curved-hud-gradient-curve,
+  .curved-hud-dots,
+  .curved-hud-elliptical,
+  .curved-hud-halo-band {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
   }
   
   /* Ensure icon SVGs in details section maintain their intended size */
