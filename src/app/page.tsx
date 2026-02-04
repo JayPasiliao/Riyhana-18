@@ -1,21 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
-
-// Dynamically import components with error handling
-const HeroSection = dynamic(() => import("@/components/HeroSection"), { 
-  ssr: true,
-  loading: () => <div style={{ minHeight: '100vh', background: '#F9EEE2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>
-});
-const PillTabNav = dynamic(() => import("@/components/PillTabNav").then(mod => ({ default: mod.default })), { ssr: true });
-const SectionCard = dynamic(() => import("@/components/SectionCard"), { ssr: true });
-const EntourageCard = dynamic(() => import("@/components/EntourageCard"), { ssr: true });
-const RSVPForm = dynamic(() => import("@/components/RSVPForm"), { ssr: true });
-const CalendarButtons = dynamic(() => import("@/components/CalendarButtons"), { ssr: true });
-const VenueMapEmbed = dynamic(() => import("@/components/VenueMapEmbed"), { ssr: true });
-const GlitterParticles = dynamic(() => import("@/components/DecorativeElements").then(mod => ({ default: mod.GlitterParticles })), { ssr: true });
-const { FloralDivider, GoldDotsDivider, CurvedArcDivider, DoubleArcDivider, HaloBehindTitle } = await import("@/components/DecorativeElements");
+import { useState, useEffect, useRef, Suspense } from "react";
+import HeroSection from "@/components/HeroSection";
+import PillTabNav, { type TabId } from "@/components/PillTabNav";
+import SectionCard from "@/components/SectionCard";
+import EntourageCard from "@/components/EntourageCard";
+import RSVPForm from "@/components/RSVPForm";
+import CalendarButtons from "@/components/CalendarButtons";
+import VenueMapEmbed from "@/components/VenueMapEmbed";
+import { FloralDivider, GoldDotsDivider, GlitterParticles, CurvedArcDivider, DoubleArcDivider, HaloBehindTitle } from "@/components/DecorativeElements";
 import { useScrollActiveSection } from "@/hooks/useScrollActiveSection";
 import { EVENT_DATE_LINE, VENUE_NAME, PARENTS, ROSES, CANDLES, ENVELOPES } from "@/lib/constants";
 
