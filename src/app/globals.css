@@ -1096,10 +1096,22 @@ main .text-gray-500,
     image-rendering: crisp-edges;
   }
   
-  /* SVG - prevent overflow */
+  /* SVG - prevent overflow and ensure proper sizing */
   svg {
     max-width: 100%;
     height: auto;
+  }
+  
+  /* Ensure icon SVGs in details section maintain their intended size */
+  .details-body svg,
+  .details-card-enter svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    max-width: 1.25rem !important;
+    max-height: 1.25rem !important;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
   }
   
   /* Tables - make scrollable on mobile */

@@ -32,38 +32,50 @@ async function getAuthClient() {
   
   let credentials;
 
-  // Try reading from file path first
+  // Try reading from file path first (for local development)
   if (credentialsPath) {
     try {
       const filePath = join(process.cwd(), credentialsPath);
       const fileContent = readFileSync(filePath, "utf-8");
       credentials = JSON.parse(fileContent);
+      console.log("✓ Loaded credentials from file:", credentialsPath);
     } catch (err) {
-      console.error(`Failed to read credentials file at ${credentialsPath}:`, err);
+      console.error(`✗ Failed to read credentials file at ${credentialsPath}:`, err);
       return null; // Return null instead of throwing to prevent site crash
     }
   } 
-  // Otherwise try environment variable
+  // Otherwise try environment variable (for production/Vercel)
   else if (credentialsJson) {
     try {
       credentials = typeof credentialsJson === "string" 
         ? JSON.parse(credentialsJson) 
         : credentialsJson;
+      console.log("✓ Loaded credentials from environment variable");
     } catch (err) {
-      console.error("Failed to parse GOOGLE_SHEETS_CREDENTIALS JSON:", err);
+      console.error("✗ Failed to parse GOOGLE_SHEETS_CREDENTIALS JSON:", err);
       return null; // Return null instead of throwing
     }
   } else {
-    console.warn("Google Sheets credentials not configured");
+    console.error("✗ Google Sheets credentials not configured. Set GOOGLE_SHEETS_CREDENTIALS or GOOGLE_SHEETS_CREDENTIALS_PATH");
     return null; // Return null instead of throwing
   }
 
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  });
+  // Validate credentials structure
+  if (!credentials.client_email || !credentials.private_key) {
+    console.error("✗ Invalid credentials: missing client_email or private_key");
+    return null;
+  }
 
-  return auth;
+  try {
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    });
+    return auth;
+  } catch (err) {
+    console.error("✗ Failed to create Google Auth client:", err);
+    return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -81,12 +93,23 @@ export async function POST(request: NextRequest) {
 
     const auth = await getAuthClient();
     if (!auth) {
+      console.error("RSVP submission failed: Google Sheets credentials not configured");
       return NextResponse.json(
         { error: "RSVP service is temporarily unavailable. Please try again later." },
         { status: 503 }
       );
     }
-    const sheets = google.sheets({ version: "v4", auth });
+
+    let sheets;
+    try {
+      sheets = google.sheets({ version: "v4", auth });
+    } catch (err) {
+      console.error("Failed to initialize Google Sheets client:", err);
+      return NextResponse.json(
+        { error: "RSVP service is temporarily unavailable. Please try again later." },
+        { status: 503 }
+      );
+    }
 
     // Prepare row data matching sheet headers: Name | Address | Contact Number | Email Address | Facebook Profile | Confirmation | Message | No. of Guest | Relationship
     const values = [[
@@ -116,20 +139,45 @@ export async function POST(request: NextRequest) {
       throw new Error("No response from Google Sheets API");
     }
 
+    console.log("✓ RSVP submitted successfully to Google Sheets");
     return NextResponse.json({ 
       success: true,
       message: "RSVP submitted successfully"
     });
   } catch (err) {
-    console.error("RSVP submission error:", err);
+    console.error("✗ RSVP submission error:", err);
     
-    const errorMessage = err instanceof Error 
-      ? err.message 
-      : "Failed to submit RSVP. Please try again.";
+    // Provide more specific error messages for common issues
+    let errorMessage = "Failed to submit RSVP. Please try again.";
+    let statusCode = 500;
+
+    if (err instanceof Error) {
+      const errorMsg = err.message.toLowerCase();
+      
+      // Check for permission errors
+      if (errorMsg.includes("permission") || errorMsg.includes("does not have permission")) {
+        errorMessage = "RSVP service configuration error. Please contact the administrator.";
+        console.error("Permission error - ensure the Google Sheet is shared with the service account email");
+      }
+      // Check for sheet not found errors
+      else if (errorMsg.includes("not found") || errorMsg.includes("spreadsheet")) {
+        errorMessage = "RSVP service configuration error. Please contact the administrator.";
+        console.error("Sheet not found - verify GOOGLE_SHEET_ID is correct");
+      }
+      // Check for authentication errors
+      else if (errorMsg.includes("auth") || errorMsg.includes("credential") || errorMsg.includes("invalid")) {
+        errorMessage = "RSVP service is temporarily unavailable. Please try again later.";
+        statusCode = 503;
+        console.error("Authentication error - verify credentials are correct");
+      }
+      else {
+        errorMessage = err.message;
+      }
+    }
 
     return NextResponse.json(
       { error: errorMessage },
-      { status: 500 }
+      { status: statusCode }
     );
   }
 }
